@@ -18,8 +18,9 @@ public class FloatingAnimation : MonoBehaviour
 
     private void Update()
     {
+        // Move the object using sin function
         _x += Time.deltaTime;
         _movement = Mathf.Sin(_x * animationSpeed) * animationStrength;
-        transform.position = new Vector3(transform.position.x, _startPos + _movement, transform.position.z);
+        transform.Translate(new Vector3(0, _movement * Time.deltaTime, 0));
     }
 }

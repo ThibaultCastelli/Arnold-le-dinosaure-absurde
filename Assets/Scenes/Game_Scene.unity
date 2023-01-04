@@ -145,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dd706202620334983c13539d600a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 1
-  scrollDirection: 0
-  spriteClone: {fileID: 5980837809811216269, guid: 87fa3b47799998d4fb3a2cfc2f278b4f, type: 3}
+  _scrollSpeed: 1
+  _scrollDirection: 0
+  _spriteClone: {fileID: 5980837809811216269, guid: 87fa3b47799998d4fb3a2cfc2f278b4f, type: 3}
 --- !u!1 &80658421
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &778066558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778066561}
+  - component: {fileID: 778066560}
+  m_Layer: 8
+  m_Name: Ground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!68 &778066560
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778066558}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -10, y: 0}
+  - {x: 10, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!4 &778066561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778066558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.06, y: 2.34, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123357592 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3736085837752915167, guid: 7654ef731ed545742ad28adcf778a14e, type: 3}
@@ -205,9 +259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dd706202620334983c13539d600a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 4
-  scrollDirection: 0
-  spriteClone: {fileID: 3736085837752915167, guid: 7654ef731ed545742ad28adcf778a14e, type: 3}
+  _scrollSpeed: 5
+  _scrollDirection: 0
+  _spriteClone: {fileID: 3736085837752915167, guid: 7654ef731ed545742ad28adcf778a14e, type: 3}
 --- !u!1 &1356451200
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +273,9 @@ GameObject:
   - component: {fileID: 1356451203}
   - component: {fileID: 1356451202}
   - component: {fileID: 1356451201}
+  - component: {fileID: 1356451205}
   - component: {fileID: 1356451204}
+  - component: {fileID: 1356451206}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -314,7 +370,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1356451204
+--- !u!50 &1356451204
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356451200}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &1356451205
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356451200}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &1356451206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,31 +426,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1356451200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: 03ccde6a6dad510438c2f9c2b1f28d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 307703d50729ee64eb1494fb30c6e53a, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c1e06241-2e93-4177-a708-ca09d6bec607
-    m_ActionName: Player/Jump[/Keyboard/space]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  _jumpForce: 6
+  fallMultiplier: 4
+  lowJumpFallMultiplier: 2.5
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  boxCastOffset: 0.2
 --- !u!1 &1407327807
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,14 +556,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851f5623fd5dd3949b1cdbd3a41c12da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjects:
+  _defaultPoolSize: 5
+  _timeBetweenSpawn: 5
+  _spawnOnStart: 1
+  _gameObjects:
   - {fileID: 3785746047721613968, guid: ee6e8b30f5b6c7f49a557ada6d612bd0, type: 3}
   - {fileID: 7121711189202140495, guid: 9cd61850b38741e4eaf42683f05ba888, type: 3}
   - {fileID: 2761932348960529013, guid: 83d281cbf727cf54cb2602b4a76ce1bc, type: 3}
   - {fileID: 7351806976471199328, guid: 4990618c616151f4f963d0c244808ec5, type: 3}
-  timeBetweenSpawn: 4
-  spawnOnStart: 1
-  defaultPoolSize: 5
 --- !u!1 &2027779855
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,16 +726,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851f5623fd5dd3949b1cdbd3a41c12da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjects:
+  _defaultPoolSize: 5
+  _timeBetweenSpawn: 6
+  _spawnOnStart: 1
+  _gameObjects:
   - {fileID: 821287079994641916, guid: 6dcbb7d103ceb984598317aedcff6182, type: 3}
   - {fileID: 1521311301807981278, guid: 6fdcf2bf1972db449a34abfbc52a5533, type: 3}
   - {fileID: 8800402556085131107, guid: 5c69759a7f4f9474dbde231893a0bfe8, type: 3}
   - {fileID: 8279709829209818592, guid: 9c2532a3432eb21408d1091af4af1c02, type: 3}
   - {fileID: 291563345717550639, guid: dee98a9620480e649a854b00be80c2a2, type: 3}
   - {fileID: 4124490302408634110, guid: 980caa2d415df0445b23dc0de9ceb91c, type: 3}
-  timeBetweenSpawn: 6
-  spawnOnStart: 1
-  defaultPoolSize: 5
 --- !u!1001 &3736085836707678023
 PrefabInstance:
   m_ObjectHideFlags: 0

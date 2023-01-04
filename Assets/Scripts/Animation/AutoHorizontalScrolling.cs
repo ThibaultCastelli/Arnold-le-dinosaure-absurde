@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AutoHorizontalScrolling : MonoBehaviour
 {
-    [SerializeField][Range(0, 50)] float scrollSpeed = 1f;
-    [SerializeField] HorizontalDirection scrollDirection;
-    [SerializeField] GameObject spriteClone;
+    [SerializeField][Range(0, 50)] float _scrollSpeed = 1f;
+    [SerializeField] HorizontalDirection _scrollDirection;
+    [SerializeField] GameObject _spriteClone;
 
-    private Vector3 _dir;
+    private Vector3 _dir;   // Direction of the scrolling
     private float _startPos;
     private float _spriteWidth;
 
@@ -17,7 +17,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
     void Awake()
     {
         // Get scroll direction
-        switch(scrollDirection)
+        switch(_scrollDirection)
         {
             case HorizontalDirection.Left:
                 _dir = Vector3.left;
@@ -36,13 +36,20 @@ public class AutoHorizontalScrolling : MonoBehaviour
         _spriteWidth = spriteBlock.bounds.size.x * spriteCount;
 
         // Duplicate the sprite
-        Instantiate(spriteClone, new Vector3(_spriteWidth, transform.position.y, transform.position.z), transform.rotation, transform);
+        if (_spriteClone == null)
+        {
+            Debug.LogError($"The auto scrolling on {gameObject.name} must have a spirte clone.");
+        }
+        else
+        {
+            Instantiate(_spriteClone, new Vector3(_spriteWidth, transform.position.y, transform.position.z), transform.rotation, transform);
+        }
     }
 
     void Update()
     {
         // Move
-        transform.position += _dir * scrollSpeed * Time.deltaTime;
+        transform.Translate(_dir * _scrollSpeed * Time.deltaTime);
         
         // Reset position
         _deltaPos = Mathf.Abs(_startPos - gameObject.transform.position.x);

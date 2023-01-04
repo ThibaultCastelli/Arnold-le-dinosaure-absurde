@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class AutoSpeedHorizontal : MonoBehaviour
 {
-    [Range(0, 50)] public float speed = 1f;
-    [SerializeField] HorizontalDirection direction;
+    [Range(0, 50)] public float _speed = 1f;
+    [SerializeField] HorizontalDirection _direction;
 
     private Vector3 _dir;
 
     private void Awake()
     {
-        switch(direction)
+        switch(_direction)
         {
             case HorizontalDirection.Left:
                 _dir = Vector3.left;
@@ -24,6 +24,6 @@ public class AutoSpeedHorizontal : MonoBehaviour
 
     private void Update()
     {
-        transform.position += _dir * speed * Time.deltaTime;
+        transform.Translate(_dir * _speed * Time.deltaTime);
     }
 }

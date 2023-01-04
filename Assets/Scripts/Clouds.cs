@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class Clouds : MonoBehaviour, ISpawnable
 {
-    [SerializeField][Range(0f, 5f)] float minSpeed = 0.3f;
-    [SerializeField][Range(0f, 5)] float maxSpeed = 1.5f;
+    [SerializeField][Range(0f, 5f)] float _minSpeed = 0.3f;
+    [SerializeField][Range(0f, 5)] float _maxSpeed = 1.5f;
 
-    [SerializeField][Range(0f, 5f)] float minAnimationSpeed = 0.4f;
-    [SerializeField][Range(0f, 5)] float maxAnimationSpeed = 1.5f;
+    [SerializeField][Range(0f, 5f)] float _minAnimationSpeed = 0.4f;
+    [SerializeField][Range(0f, 5)] float _maxAnimationSpeed = 1.5f;
 
-    [SerializeField][Range(0f, 1f)] float minAnimationStrength = 0.1f;
-    [SerializeField][Range(0f, 1)] float maxAnimationStrength = 0.6f;
+    [SerializeField][Range(0f, 1f)] float _minAnimationStrength = 0.1f;
+    [SerializeField][Range(0f, 1)] float _maxAnimationStrength = 0.6f;
 
     void Start()
     {
+        // Set random floating animation values
         FloatingAnimation anim = GetComponent<FloatingAnimation>();
-        anim.animationSpeed = Random.Range(minAnimationSpeed, maxAnimationSpeed);
-        anim.animationStrength = Random.Range(minAnimationStrength, maxAnimationStrength);
+        anim.animationSpeed = Random.Range(_minAnimationSpeed, _maxAnimationSpeed);
+        anim.animationStrength = Random.Range(_minAnimationStrength, _maxAnimationStrength);
 
+        // Set random speed
         AutoSpeedHorizontal autoSpeed = GetComponent<AutoSpeedHorizontal>();
-        autoSpeed.speed = Random.Range(minSpeed, maxSpeed);
+        autoSpeed._speed = Random.Range(_minSpeed, _maxSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

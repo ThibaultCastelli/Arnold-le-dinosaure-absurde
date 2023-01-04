@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> gameObjects = new List<GameObject>();
-    [SerializeField][Range(0.1f, 10)] float timeBetweenSpawn = 1f;
-    [SerializeField] bool spawnOnStart = false;
-    [SerializeField][Range(1, 50)] int defaultPoolSize = 5;
+    [SerializeField][Range(1, 50)] int _defaultPoolSize = 5;
+    [SerializeField][Range(0.1f, 10)] float _timeBetweenSpawn = 1f;
+    [SerializeField] bool _spawnOnStart = false;
+    [SerializeField] List<GameObject> _gameObjects = new List<GameObject>();
 
-    private List<GameObject> pool = new List<GameObject>();
-
-    private float _timer = 0f;
-    private int _rndIndex;
+    private List<GameObject> _pool = new List<GameObject>();
+    private float _timer = 0f;  // Used to spawn at regular intervals
+    private int _rndIndex;      // Used to get a random GameObject from the list of GameObject
 
     private void Awake()
     {
-        for(int i = 0; i < defaultPoolSize; i++)
+        for(int i = 0; i < _defaultPoolSize; i++)
         {
             AddToPool();
         }
@@ -24,7 +23,7 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        if(spawnOnStart)
+        if(_spawnOnStart)
         {
             Spawn();
         }
@@ -33,23 +32,29 @@ public class Spawner : MonoBehaviour
     private void Update()
     {
         _timer += Time.deltaTime;
-        if (_timer >= timeBetweenSpawn)
+        if (_timer >= _timeBetweenSpawn)
         {
             _timer = 0f;
             Spawn();
         }
     }
 
+    /// <summary>
+    /// Add a random GameObject from the list gameObjects to the pool.
+    /// </summary>
+    /// <returns>The new added GameObject.</returns>
     private GameObject AddToPool()
     {
-        _rndIndex = Random.Range(0, gameObjects.Count);
+        _rndIndex = Random.Range(0, _gameObjects.Count);
 
-        ISpawnable check = gameObjects[_rndIndex].GetComponent<ISpawnable>();
+        // The object to add must implement the interface ISpawnable
+        ISpawnable check = _gameObjects[_rndIndex].GetComponent<ISpawnable>();
         if (check != null)
         {
-            GameObject clone = Instantiate(gameObjects[_rndIndex], transform);
+            // Create a new instance of that GameObject and desactivate it
+            GameObject clone = Instantiate(_gameObjects[_rndIndex], transform);
             clone.SetActive(false);
-            pool.Add(clone);
+            _pool.Add(clone);
             return clone;
         }
         else
@@ -60,17 +65,28 @@ public class Spawner : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Activate the first GameObject that is inactive in the pool.
+    /// </summary>
     public void Spawn()
     {
-        for(int i = 0; i < pool.Count; i++)
+        // Prevent errors if the pool is empty
+        if (_pool.Count == 0)
         {
-            if (!pool[i].activeInHierarchy)
+            Debug.LogError($"The pool of {gameObject.name} must contains at least one GameObject.");
+            return;
+        }
+
+        for(int i = 0; i < _pool.Count; i++)
+        {
+            if (!_pool[i].activeInHierarchy)
             {
-                pool[i].GetComponent<ISpawnable>().Spawn(transform.position, transform.rotation);
+                _pool[i].GetComponent<ISpawnable>().Spawn(transform.position, transform.rotation);
                 return;
             }
         }
 
+        // If all the GameObject are active in the pool, add a new one to the pool and activate it
         GameObject newSpawn = AddToPool();
         newSpawn.GetComponent<ISpawnable>().Spawn(transform.position, transform.rotation);
     }
