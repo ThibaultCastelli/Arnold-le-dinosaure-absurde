@@ -13,6 +13,11 @@ public class Spawner : MonoBehaviour
     private float _timer = 0f;  // Used to spawn at regular intervals
     private int _rndIndex;      // Used to get a random GameObject from the list of GameObject
 
+    /// <summary>
+    /// Time in seconds between each spawn.
+    /// </summary>
+    public float TimeBetweenSpawn { get { return _timeBetweenSpawn; } }
+
     private void Awake()
     {
         for(int i = 0; i < _defaultPoolSize; i++)
@@ -37,6 +42,18 @@ public class Spawner : MonoBehaviour
             _timer = 0f;
             Spawn();
         }
+    }
+
+    /// <summary>
+    /// Add or subtract time between spawns.
+    /// </summary>
+    /// <param name="addTime">The time to add or subtract to the time between spawns.</param>
+    public void AddTimeOfSpawn(float addTime)
+    {
+        _timeBetweenSpawn += addTime;
+
+        if (_timeBetweenSpawn <= 0)
+            _timeBetweenSpawn = 0.1f;
     }
 
     /// <summary>

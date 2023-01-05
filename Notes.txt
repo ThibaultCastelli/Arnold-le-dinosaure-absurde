@@ -1,0 +1,24 @@
+Faire exploser les cactus quand ils sont touchés par le joueur
+Faire trembler Arnold lorsqu'il est touché par un cactus
+Faire trembler la caméra lorsque le joueur touche un cactus
+
+Particules quand Arnold cours, saute, et attérrit
+
+Faire d'autres types de cactus (groupés)
+
+Son de course, saut, attérissage, cactus
+Son de dialogue qui apparait
+Son de menuing
+Musique
+
+Faire une condition de gameover
+Faire une entrée de champ pour Arnold au début d'une partie
+
+Boite de dialogue
+Ecrire l'histoire d'arnold
+
+Faire des ombres sur le sol des cactus + joueur (à voir avec systèmes light 2d)
+Cycle jour nuit
+
+Menu principal
+

@@ -10,9 +10,13 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(1f, 10f)] float fallMultiplier = 2.5f;
     [SerializeField] [Range(1f, 10f)] float lowJumpFallMultiplier = 2f;
 
-    [Header("Collision")]
+    [Header("Collision Ground")]
     [SerializeField] LayerMask _groundLayerMask;
     [SerializeField] [Range(0, 5f)] float boxCastOffset = 1f;
+
+    [Header("Collision Cactus")]
+    [SerializeField][Range(0, 3f)] float timeFreezeCollision = 0.5f;
+    [SerializeField][Range(0, 5f)] float speedMoveBack = 0.5f;
 
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
@@ -30,6 +34,9 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
+
+        // Subscribe to event
+        Events.OnAcceleration += AccelerateRunAnimation;
     }
 
     private void Update()
@@ -62,6 +69,39 @@ public class Player : MonoBehaviour
         {
             _rb.gravityScale = 1;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Cactus cactus = collision.gameObject.GetComponent<Cactus>();
+        if (cactus != null)
+        {
+            _animator.SetBool("Dead", true);
+            _inputs.Player.Disable();
+            StartCoroutine(FreezeDeath());
+        }
+    }
+
+    private IEnumerator FreezeDeath()
+    {
+        float timeCount = 0;
+        while (timeCount < timeFreezeCollision)
+        {
+            transform.Translate(Vector2.left * speedMoveBack * Time.deltaTime);
+            yield return null;
+            timeCount += Time.deltaTime;
+        }
+        _animator.SetBool("Dead", false);
+        _inputs.Player.Enable();
+    }
+
+    /// <summary>
+    /// Trigger with an event, accelerate the running animation.
+    /// </summary>
+    /// <param name="osef">Not used.</param>
+    private void AccelerateRunAnimation(float osef)
+    {
+        _animator.speed += 0.1f;
     }
 
     /// <summary>

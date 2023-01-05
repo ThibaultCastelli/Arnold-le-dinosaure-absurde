@@ -22,7 +22,7 @@ public class Clouds : MonoBehaviour, ISpawnable
 
         // Set random speed
         AutoSpeedHorizontal autoSpeed = GetComponent<AutoSpeedHorizontal>();
-        autoSpeed._speed = Random.Range(_minSpeed, _maxSpeed);
+        autoSpeed.Speed = Random.Range(_minSpeed, _maxSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

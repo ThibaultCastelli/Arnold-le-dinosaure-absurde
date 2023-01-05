@@ -6,7 +6,6 @@ public class AutoHorizontalScrolling : MonoBehaviour
 {
     [SerializeField][Range(0, 50)] float _scrollSpeed = 1f;
     [SerializeField] HorizontalDirection _scrollDirection;
-    [SerializeField] GameObject _spriteClone;
 
     private Vector3 _dir;   // Direction of the scrolling
     private float _startPos;
@@ -36,14 +35,16 @@ public class AutoHorizontalScrolling : MonoBehaviour
         _spriteWidth = spriteBlock.bounds.size.x * spriteCount;
 
         // Duplicate the sprite
-        if (_spriteClone == null)
+        GameObject clone = new GameObject("Clone");
+        clone.transform.position = new Vector3(_spriteWidth, transform.position.y, transform.position.z);
+        clone.transform.parent = transform;
+        // Populate with sprites
+        for(int i = 0; i < transform.childCount; i++)
         {
-            Debug.LogError($"The auto scrolling on {gameObject.name} must have a spirte clone.");
+            Instantiate(transform.GetChild(i), clone.transform);
         }
-        else
-        {
-            Instantiate(_spriteClone, new Vector3(_spriteWidth, transform.position.y, transform.position.z), transform.rotation, transform);
-        }
+
+        Events.OnAcceleration += Accelerate;
     }
 
     void Update()
@@ -59,4 +60,12 @@ public class AutoHorizontalScrolling : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Triggered by event, accelerate the scrolling speed.
+    /// </summary>
+    /// <param name="amount"></param>
+    private void Accelerate(float amount)
+    {
+        _scrollSpeed += amount;
+    }
 }
