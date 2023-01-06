@@ -1,8 +1,8 @@
 Faire exploser les cactus quand ils sont touchés par le joueur
-Faire trembler Arnold lorsqu'il est touché par un cactus
-Faire trembler la caméra lorsque le joueur touche un cactus
 
-Particules quand Arnold cours, saute, et attérrit
+Faire en sorte que les particules de saut reste au sol
+
+Ne pas faire accélerer le scroll du ciel
 
 Faire d'autres types de cactus (groupés)
 

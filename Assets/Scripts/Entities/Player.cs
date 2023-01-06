@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
@@ -18,10 +20,19 @@ public class Player : MonoBehaviour
     [SerializeField][Range(0, 3f)] float timeFreezeCollision = 0.5f;
     [SerializeField][Range(0, 5f)] float speedMoveBack = 0.5f;
 
+    [Header("Particles")]
+    [SerializeField] ParticleSystem runParticles;
+    [SerializeField] ParticleSystem jumpParticles;
+
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
     private Animator _animator;
     private PlayerInputActions _inputs;
+
+    private bool _inFreeze = false;
+    private bool _wasInAir = false;
+
+    private ParticleSystem.EmissionModule _emissionRun;
 
     private void Awake()
     {
@@ -34,6 +45,10 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
+
+        // Particles
+        _emissionRun = runParticles.emission;
+        _emissionRun.enabled = false;
 
         // Subscribe to event
         Events.OnAcceleration += AccelerateRunAnimation;
@@ -50,6 +65,24 @@ public class Player : MonoBehaviour
         {
             _animator.SetBool("InAir", true);
         }
+
+        // Particles
+        if(IsOnGround() && !_inFreeze)
+        {
+            _emissionRun.enabled = true;
+        }
+        else
+        {
+            _emissionRun.enabled = false;
+        }
+
+        if (IsOnGround() && _wasInAir)
+        {
+            jumpParticles.Play();
+            _wasInAir = false;
+        }
+
+        _wasInAir = !IsOnGround();
     }
 
     private void FixedUpdate()
@@ -78,6 +111,7 @@ public class Player : MonoBehaviour
         {
             _animator.SetBool("Dead", true);
             _inputs.Player.Disable();
+            Events.OnCactusHit?.Invoke();
             StartCoroutine(FreezeDeath());
         }
     }
@@ -85,14 +119,18 @@ public class Player : MonoBehaviour
     private IEnumerator FreezeDeath()
     {
         float timeCount = 0;
+        _inFreeze = true;
+
         while (timeCount < timeFreezeCollision)
         {
             transform.Translate(Vector2.left * speedMoveBack * Time.deltaTime);
             yield return null;
             timeCount += Time.deltaTime;
         }
+
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
+        _inFreeze = false;
     }
 
     /// <summary>
@@ -122,6 +160,8 @@ public class Player : MonoBehaviour
         if (IsOnGround())
         {
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+
+            jumpParticles.Play();
         }
     }
 
