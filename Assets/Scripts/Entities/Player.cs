@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     [Header("Collision Cactus")]
     [SerializeField][Range(0, 3f)] float timeFreezeCollision = 0.5f;
-    [SerializeField][Range(0, 5f)] float speedMoveBack = 0.5f;
+    [SerializeField][Range(0, 10f)] float speedMoveBack = 0.5f;
 
     [Header("Particles")]
     [SerializeField] ParticleSystem runParticles;
@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private PlayerInputActions _inputs;
 
-    private bool _inFreeze = false;
     private bool _wasInAir = false;
 
     private ParticleSystem.EmissionModule _emissionRun;
@@ -67,7 +66,7 @@ public class Player : MonoBehaviour
         }
 
         // Particles
-        if(IsOnGround() && !_inFreeze)
+        if(IsOnGround() && !_animator.GetBool("Dead"))
         {
             _emissionRun.enabled = true;
         }
@@ -76,12 +75,16 @@ public class Player : MonoBehaviour
             _emissionRun.enabled = false;
         }
 
+        // When touch the ground after a jump
         if (IsOnGround() && _wasInAir)
         {
             jumpParticles.Play();
+            Events.OnCamShake?.Invoke(1, 0.05f, 0.05f);
+
             _wasInAir = false;
         }
 
+        // Track if was on air last frame
         _wasInAir = !IsOnGround();
     }
 
@@ -104,33 +107,81 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Cactus cactus = collision.gameObject.GetComponent<Cactus>();
         if (cactus != null)
         {
-            _animator.SetBool("Dead", true);
-            _inputs.Player.Disable();
             Events.OnCactusHit?.Invoke();
+
+            StopAllCoroutines();
             StartCoroutine(FreezeDeath());
+            StartCoroutine(ShakeCoroutine(4, 0.1f, 0.05f));
         }
     }
 
+    /// <summary>
+    /// Shake the player when he hits a cactus.
+    /// </summary>
+    /// <param name="shakeIterations">Number of shakes.</param>
+    /// <param name="shakeStrength">Strength of each shake.</param>
+    /// <param name="shakeIntervals">Time between each shake.</param>
+    /// <returns></returns>
+    private IEnumerator ShakeCoroutine(int shakeIterations, float shakeStrength, float shakeIntervals)
+    {
+        // Initialize variables
+        Vector3 originalPos = transform.position;
+        float shakeCount = 0;
+        float xShake;
+        float yShake;
+
+        while (shakeCount < shakeIterations)
+        {
+            // Wait a frame on original position
+            yield return null;
+
+            // Translate to a random position
+            xShake = Random.Range(-shakeStrength, shakeStrength);
+            yShake = Random.Range(-shakeStrength, shakeStrength);
+            transform.Translate(new Vector3(xShake, yShake, transform.position.z));
+
+            yield return new WaitForSeconds(shakeIntervals);
+
+            // Reset position
+            transform.position = originalPos;
+
+            yield return new WaitForSeconds(shakeIntervals);
+
+            shakeCount++;
+            // Actualize originalPos
+            originalPos = transform.position;
+        }
+
+        // Reset position
+        transform.position = originalPos;
+    }
+
+    /// <summary>
+    /// Prevent the player from jumping when touch by a cactus for a given time.
+    /// </summary>
     private IEnumerator FreezeDeath()
     {
+        // Start the timer, prevent player from jumping and play death animation
         float timeCount = 0;
-        _inFreeze = true;
+        _animator.SetBool("Dead", true);
+        _inputs.Player.Disable();
 
         while (timeCount < timeFreezeCollision)
         {
+            // Move the player to the left
             transform.Translate(Vector2.left * speedMoveBack * Time.deltaTime);
             yield return null;
             timeCount += Time.deltaTime;
         }
 
+        // Enable jumping and stop death animation
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
-        _inFreeze = false;
     }
 
     /// <summary>
@@ -159,9 +210,12 @@ public class Player : MonoBehaviour
     {
         if (IsOnGround())
         {
+            // Jump
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
 
+            // Play particles and shake the cam
             jumpParticles.Play();
+            Events.OnCamShake?.Invoke(1, 0.05f, 0.05f);
         }
     }
 

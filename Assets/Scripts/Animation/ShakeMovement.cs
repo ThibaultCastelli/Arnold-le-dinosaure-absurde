@@ -14,6 +14,7 @@ public class ShakeMovement : MonoBehaviour
     {
         // Subscribe to events causing a shake
         Events.OnCactusHit += Shake;
+        Events.OnCamShake += Shake;
     }
 
     public void Shake()
@@ -24,22 +25,40 @@ public class ShakeMovement : MonoBehaviour
             StopCoroutine(_shakeCoroutine);
         }
 
-        _shakeCoroutine = StartCoroutine(ShakeCoroutine());
+        _shakeCoroutine = StartCoroutine(ShakeCoroutine(shakeIterations, shakeStrength, shakeIntervals));
     }
 
-    private IEnumerator ShakeCoroutine()
+    public void Shake(int shakeIterations, float shakeStrength, float shakeIntervals)
+    {
+        // Prevent from having two shakes at the same time
+        if (_shakeCoroutine != null)
+        {
+            StopCoroutine(_shakeCoroutine);
+        }
+
+        _shakeCoroutine = StartCoroutine(ShakeCoroutine(shakeIterations, shakeStrength, shakeIntervals));
+    }
+
+    private IEnumerator ShakeCoroutine(int shakeIterations, float shakeStrength, float shakeIntervals)
     {
         // Initialize variables
         Vector3 originalPos = transform.position;
         float shakeCount = 0;
         float xShake;
         float yShake;
+        int rndSign;
 
         while (shakeCount < shakeIterations)
         {
+            // Wait a frame on original position
+            yield return null;
+
             // Translate to a random position
-            xShake = Random.Range(-shakeStrength, shakeStrength);
-            yShake = Random.Range(-shakeStrength, shakeStrength);
+            rndSign = Random.Range(0, 1) == 1 ? 1 : -1;
+            xShake = Random.Range(shakeStrength / 2, shakeStrength) * rndSign;
+            rndSign = Random.Range(0, 1) == 1 ? 1 : -1;
+            yShake = Random.Range(shakeStrength / 2, shakeStrength) * rndSign;
+
             transform.Translate(new Vector3(xShake, yShake, transform.position.z));
 
             yield return new WaitForSeconds(shakeIntervals);

@@ -8,6 +8,7 @@ public class AutoSpeedHorizontal : MonoBehaviour
     [SerializeField] HorizontalDirection _direction;
 
     private Vector3 _dir;
+    private bool _move = true;
 
     /// <summary>
     /// Horizontal speed.
@@ -22,6 +23,12 @@ public class AutoSpeedHorizontal : MonoBehaviour
             else
                 _speed = value;
         }
+    }
+
+    public bool Move
+    {
+        get { return _move; }
+        set { _move = value; }
     }
 
     private void Awake()
@@ -39,6 +46,9 @@ public class AutoSpeedHorizontal : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(_dir * _speed * Time.deltaTime);
+        if (_move)
+        {
+            transform.Translate(_dir * _speed * Time.deltaTime);
+        }
     }
 }

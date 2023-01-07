@@ -14,4 +14,9 @@ public static class Events
     /// Event triggered when the player hits a cactus.
     /// </summary>
     public static Action OnCactusHit;
+
+    /// <summary>
+    /// Event triggered when the camera needs to shake.
+    /// </summary>
+    public static Action<int, float, float> OnCamShake;
 }

@@ -6,6 +6,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
 {
     [SerializeField][Range(0, 50)] float _scrollSpeed = 1f;
     [SerializeField] HorizontalDirection _scrollDirection;
+    [SerializeField] bool _accelerate = true;
 
     private Vector3 _dir;   // Direction of the scrolling
     private float _startPos;
@@ -44,7 +45,10 @@ public class AutoHorizontalScrolling : MonoBehaviour
             Instantiate(transform.GetChild(i), clone.transform);
         }
 
-        Events.OnAcceleration += Accelerate;
+        if (_accelerate)
+        {
+            Events.OnAcceleration += Accelerate;
+        }
     }
 
     void Update()
