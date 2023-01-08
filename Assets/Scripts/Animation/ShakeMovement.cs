@@ -59,7 +59,7 @@ public class ShakeMovement : MonoBehaviour
             rndSign = Random.Range(0, 1) == 1 ? 1 : -1;
             yShake = Random.Range(shakeStrength / 2, shakeStrength) * rndSign;
 
-            transform.Translate(new Vector3(xShake, yShake, transform.position.z));
+            transform.Translate(new Vector3(xShake, yShake, 0));
 
             yield return new WaitForSeconds(shakeIntervals);
 

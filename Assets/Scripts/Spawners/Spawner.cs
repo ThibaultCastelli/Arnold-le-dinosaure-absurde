@@ -11,7 +11,9 @@ public class Spawner : MonoBehaviour
 
     private List<GameObject> _pool = new List<GameObject>();
     private float _timer = 0f;  // Used to spawn at regular intervals
-    private int _rndIndex;      // Used to get a random GameObject from the list of GameObject
+    private int _rndIndex = -1;      // Used to get a random GameObject from the list of GameObject
+
+    private List<GameObject> _objectsToAdd; // Used to spawn each gameobject at least one
 
     /// <summary>
     /// Time in seconds between each spawn.
@@ -20,7 +22,10 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        for(int i = 0; i < _defaultPoolSize; i++)
+        // Copy the game objects to the temp list
+        _objectsToAdd = new List<GameObject>(_gameObjects);
+
+        for (int i = 0; i < _defaultPoolSize; i++)
         {
             AddToPool();
         }
@@ -62,16 +67,27 @@ public class Spawner : MonoBehaviour
     /// <returns>The new added GameObject.</returns>
     private GameObject AddToPool()
     {
-        _rndIndex = Random.Range(0, _gameObjects.Count);
+        // If all the objects have been spawn one time, reset the list of objects to spawn
+        if (_objectsToAdd.Count == 0)
+        {
+            _objectsToAdd = new List<GameObject>(_gameObjects);
+        }
+
+        // Get random object
+        _rndIndex = Random.Range(0, _objectsToAdd.Count);
 
         // The object to add must implement the interface ISpawnable
-        ISpawnable check = _gameObjects[_rndIndex].GetComponent<ISpawnable>();
+        ISpawnable check = _objectsToAdd[_rndIndex].GetComponent<ISpawnable>();
         if (check != null)
         {
             // Create a new instance of that GameObject and desactivate it
-            GameObject clone = Instantiate(_gameObjects[_rndIndex], transform);
+            GameObject clone = Instantiate(_objectsToAdd[_rndIndex], transform);
             clone.SetActive(false);
             _pool.Add(clone);
+
+            // Remove the spawned object from the list
+            _objectsToAdd.RemoveAt(_rndIndex);
+
             return clone;
         }
         else

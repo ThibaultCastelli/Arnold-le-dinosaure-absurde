@@ -171,6 +171,10 @@ public class Player : MonoBehaviour
         _animator.SetBool("Dead", true);
         _inputs.Player.Disable();
 
+        // "Disable" the rigidbody while freeze and shaking
+        _rb.isKinematic = true;
+        _rb.velocity = Vector2.zero;
+
         while (timeCount < timeFreezeCollision)
         {
             // Move the player to the left
@@ -182,6 +186,9 @@ public class Player : MonoBehaviour
         // Enable jumping and stop death animation
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
+
+        // Re-enable rigidbody
+        _rb.isKinematic = false;
     }
 
     /// <summary>

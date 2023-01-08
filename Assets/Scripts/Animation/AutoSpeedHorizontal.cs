@@ -10,6 +10,8 @@ public class AutoSpeedHorizontal : MonoBehaviour
     private Vector3 _dir;
     private bool _move = true;
 
+    private Rigidbody2D _rb;
+
     /// <summary>
     /// Horizontal speed.
     /// </summary>
@@ -25,6 +27,9 @@ public class AutoSpeedHorizontal : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Enable or disable the horizontal movement.
+    /// </summary>
     public bool Move
     {
         get { return _move; }
@@ -42,13 +47,25 @@ public class AutoSpeedHorizontal : MonoBehaviour
                 _dir = Vector3.right;
                 break;
         }
+
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (_move)
+        // Move the transform if there is no rigidbody on the game object
+        if (_move && _rb == null)
         {
             transform.Translate(_dir * _speed * Time.deltaTime);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // Move the rigidbody if there is one on the game object
+        if(_move && _rb != null)
+        {
+            _rb.position += new Vector2(_dir.x, _dir.y) * _speed * Time.fixedDeltaTime;
         }
     }
 }

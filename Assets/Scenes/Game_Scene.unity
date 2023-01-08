@@ -913,6 +913,7 @@ MonoBehaviour:
   _defaultPoolSize: 10
   _timeBetweenSpawn: 5
   _spawnOnStart: 1
+  _preventDouble: 1
   _gameObjects:
   - {fileID: 6818863110161704689, guid: 9a86de51fc959c54eb77c66d3cbd2836, type: 3}
   - {fileID: 1292663168208104616, guid: 86cce4c35a5011244904d325db118fb8, type: 3}
@@ -6099,7 +6100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356451200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 3.011, z: 0}
+  m_LocalPosition: {x: 1.21, y: 3.011, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6125,7 +6126,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1356451205
 BoxCollider2D:
@@ -11343,6 +11344,7 @@ MonoBehaviour:
   _defaultPoolSize: 5
   _timeBetweenSpawn: 5
   _spawnOnStart: 1
+  _preventDouble: 1
   _gameObjects:
   - {fileID: 3785746047721613968, guid: ee6e8b30f5b6c7f49a557ada6d612bd0, type: 3}
   - {fileID: 7121711189202140495, guid: 9cd61850b38741e4eaf42683f05ba888, type: 3}
@@ -11529,6 +11531,7 @@ MonoBehaviour:
   _defaultPoolSize: 5
   _timeBetweenSpawn: 6
   _spawnOnStart: 1
+  _preventDouble: 1
   _gameObjects:
   - {fileID: 821287079994641916, guid: 6dcbb7d103ceb984598317aedcff6182, type: 3}
   - {fileID: 1521311301807981278, guid: 6fdcf2bf1972db449a34abfbc52a5533, type: 3}

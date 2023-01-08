@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cactus : MonoBehaviour, ISpawnable
 {
     [SerializeField] [Range(0, 10f)] float explosionForce = 5f;
+    [SerializeField][Range(0, 100)] int explosionAngleForce = 10;
 
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
@@ -38,17 +39,19 @@ public class Cactus : MonoBehaviour, ISpawnable
                 (_collider.bounds.center.y - collision.collider.bounds.center.y) * playerVelocityDir)
                 .normalized;
 
-            // Get a random point of origin for the force to be applied on the cactus
-            _originExplosion = new Vector2(
-                Random.Range(_collider.bounds.min.x, _collider.bounds.center.x),
-                Random.Range(_collider.bounds.center.y, _collider.bounds.max.y));
-
             // Prevent the cactus to retouch the player and continue to move left
             _collider.isTrigger = true;
             _horizontalMove.Move = false;
 
             // Apply the force to the cactus
-            _rb.AddForceAtPosition(_explosionDir * explosionForce, _originExplosion, ForceMode2D.Impulse);
+            _rb.AddForce(_explosionDir * explosionForce, ForceMode2D.Impulse);
+            _rb.AddTorque(-Random.Range(50, 100) * explosionAngleForce);
+
+            // If the cactus goes up, add gravity scale to look better
+            if (_explosionDir.y > 0) 
+            {
+                _rb.gravityScale = 3;
+            }
         }
     }
 
@@ -73,5 +76,6 @@ public class Cactus : MonoBehaviour, ISpawnable
 
         _collider.isTrigger = false;
         _horizontalMove.Move = true;
+        _rb.gravityScale = 1;
     }
 }

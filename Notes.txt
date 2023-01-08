@@ -1,8 +1,5 @@
-Améliorer l'aléatoire de la pool
-
-Mettre plus de rotation sur l'éjectiond des cactus
-
 Faire d'autres types de cactus (groupés)
+Augmenter la vitesse d'éjecion des cactus avec le temps
 
 Son de course, saut, attérissage, cactus
 Son de dialogue qui apparait
