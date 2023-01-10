@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Cactus : MonoBehaviour, ISpawnable
 {
-    [SerializeField] [Range(0, 10f)] float explosionForce = 5f;
+    [SerializeField] [Range(0, 10f)] float explosionForce = 2f;
+    [SerializeField][Range(0, 10f)] float maxExplosionForce = 7f;
     [SerializeField][Range(0, 100)] int explosionAngleForce = 10;
 
     private Rigidbody2D _rb;
@@ -12,13 +13,14 @@ public class Cactus : MonoBehaviour, ISpawnable
     private AutoSpeedHorizontal _horizontalMove;
 
     private Vector2 _explosionDir;
-    private Vector2 _originExplosion;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _horizontalMove = GetComponent<AutoSpeedHorizontal>();
+
+        Events.OnAcceleration += AddForceExplosion;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -63,9 +65,20 @@ public class Cactus : MonoBehaviour, ISpawnable
         }
     }
 
+    private void AddForceExplosion(float amount)
+    {
+        if (explosionForce < maxExplosionForce)
+        {
+            explosionForce += amount;
+        }
+    }
+
     public void Despawn()
     {
         gameObject.SetActive(false);
+
+        // Ask the parent to check if all its children are not active, if so, despawn the parent
+        transform.parent.GetComponent<ParentCactus>().CheckDespawn();
     }
 
     public void Spawn(Vector3 position, Quaternion rotation)

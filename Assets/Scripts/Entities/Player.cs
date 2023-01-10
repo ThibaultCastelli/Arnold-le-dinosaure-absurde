@@ -217,6 +217,10 @@ public class Player : MonoBehaviour
     {
         if (IsOnGround())
         {
+            // Reset gravity scale and velocity on y-axis
+            _rb.gravityScale = 1;
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
+
             // Jump
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
 

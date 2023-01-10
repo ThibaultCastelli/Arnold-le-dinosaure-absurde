@@ -1,5 +1,4 @@
-Faire d'autres types de cactus (groupés)
-Augmenter la vitesse d'éjecion des cactus avec le temps
+Rendre les groupement de cactus plus faisable à grande vitesse
 
 Son de course, saut, attérissage, cactus
 Son de dialogue qui apparait

@@ -19,6 +19,11 @@ public class CactusSpawner : MonoBehaviour
     private float _timeCount = 0;
     private float _currCactusSpeed;
 
+    /// <summary>
+    /// Current speed of all the cactus.
+    /// </summary>
+    public float CurrentCactusSpeed { get { return _currCactusSpeed;} }
+
     private void Awake()
     {
         // Get component
@@ -31,7 +36,7 @@ public class CactusSpawner : MonoBehaviour
     private void Start()
     {
         // Get the basic speed of the cactus
-        _currCactusSpeed = transform.GetChild(0).GetComponent<AutoSpeedHorizontal>().Speed;
+        _currCactusSpeed = transform.GetChild(0).GetChild(0).GetComponent<AutoSpeedHorizontal>().Speed;
     }
 
     private void Update()
@@ -60,13 +65,18 @@ public class CactusSpawner : MonoBehaviour
     /// <param name="amount">Amount added to the speed of cactus.</param>
     private void AccelerateCactus(float amount)
     {
-        // For each child (cactus)
+        // For each child (parent cactus)
         for (int i = 0; i < transform.childCount; i++)
         {
-            AutoSpeedHorizontal scroll = transform.GetChild(i).GetComponent<AutoSpeedHorizontal>();
-            // Set the speed to the curr speed for every cactus, and add the amount
-            scroll.Speed = _currCactusSpeed;
-            scroll.Speed += amount;
+            Transform parentCactus = transform.GetChild(i);
+
+            // Set the speed to the current speed and add the amount to each child cactus
+            for (int j = 0; j < parentCactus.childCount; j++)
+            {
+                AutoSpeedHorizontal scroll = parentCactus.GetChild(j).GetComponent<AutoSpeedHorizontal>();
+                scroll.Speed = _currCactusSpeed;
+                scroll.Speed += amount;
+            }
         }
         _currCactusSpeed += _strengthAccelerationCactus;
     }
