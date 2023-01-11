@@ -54,6 +54,20 @@ public class Cactus : MonoBehaviour, ISpawnable
             {
                 _rb.gravityScale = 3;
             }
+
+            StartCoroutine(ZoomAnimation());
+        }
+    }
+
+    /// <summary>
+    /// Used to animate the ejection of cactus
+    /// </summary>
+    private IEnumerator ZoomAnimation()
+    {
+        while (transform.localScale.x > 0)
+        {
+            transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+            yield return null;
         }
     }
 
@@ -85,6 +99,7 @@ public class Cactus : MonoBehaviour, ISpawnable
     {
         transform.position = position;
         transform.rotation = rotation;
+        transform.localScale = Vector3.one;
         gameObject.SetActive(true);
 
         _collider.isTrigger = false;

@@ -224,9 +224,10 @@ public class Player : MonoBehaviour
             // Jump
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
 
-            // Play particles and shake the cam
+            // Play particles and shake the cam and play jump sound
             jumpParticles.Play();
             Events.OnCamShake?.Invoke(1, 0.05f, 0.05f);
+            SoundManager.Instance.PlaySfx("Jump", transform.position);
         }
     }
 

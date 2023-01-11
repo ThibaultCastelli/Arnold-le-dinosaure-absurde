@@ -1,5 +1,7 @@
 Rendre les groupement de cactus plus faisable à grande vitesse
 
+Sound manager : passer par la fonction Play plutôt que PlayOneShot pour mieux controller le nombre
+de sons jouables en même temps. 
 Son de course, saut, attérissage, cactus
 Son de dialogue qui apparait
 Son de menuing

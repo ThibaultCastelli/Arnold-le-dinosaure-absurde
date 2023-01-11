@@ -27,7 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4198875323751472416}
   - {fileID: 4198875324736818927}
@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionForce: 3
+  maxExplosionForce: 2
   explosionAngleForce: 10
 --- !u!1 &8784953605701693636
 GameObject:
@@ -371,4 +372,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionForce: 3
+  maxExplosionForce: 2
   explosionAngleForce: 10
