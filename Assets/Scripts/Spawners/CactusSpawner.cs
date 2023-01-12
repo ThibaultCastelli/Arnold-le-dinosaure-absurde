@@ -28,9 +28,18 @@ public class CactusSpawner : MonoBehaviour
     {
         // Get component
         spawner = GetComponent<Spawner>();
+    }
 
+    private void OnEnable()
+    {
         // Subscribe to event
         Events.OnAcceleration += AccelerateCactus;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to event
+        Events.OnAcceleration -= AccelerateCactus;
     }
 
     private void Start()

@@ -20,12 +20,6 @@ public class ParentCactus : MonoBehaviour, ISpawnable
 
     public void Despawn()
     {
-        // Despawn all child cactus
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    transform.GetChild(i).GetComponent<Cactus>().Despawn();
-        //}
-
         // Despawn parent cactus
         gameObject.SetActive(false);
     }

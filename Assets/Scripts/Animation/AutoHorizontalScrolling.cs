@@ -45,9 +45,24 @@ public class AutoHorizontalScrolling : MonoBehaviour
             Instantiate(transform.GetChild(i), clone.transform);
         }
 
+        
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to event
         if (_accelerate)
         {
             Events.OnAcceleration += Accelerate;
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to event
+        if (_accelerate)
+        {
+            Events.OnAcceleration -= Accelerate;
         }
     }
 

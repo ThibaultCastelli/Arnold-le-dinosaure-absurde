@@ -10,11 +10,18 @@ public class ShakeMovement : MonoBehaviour
 
     Coroutine _shakeCoroutine;
 
-    private void Awake()
+    private void OnEnable()
     {
         // Subscribe to events causing a shake
         Events.OnCactusHit += Shake;
         Events.OnCamShake += Shake;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to events causing a shake
+        Events.OnCactusHit -= Shake;
+        Events.OnCamShake -= Shake;
     }
 
     public void Shake()

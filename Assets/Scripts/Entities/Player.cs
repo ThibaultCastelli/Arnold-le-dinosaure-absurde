@@ -49,8 +49,19 @@ public class Player : MonoBehaviour
         _emissionRun = runParticles.emission;
         _emissionRun.enabled = false;
 
+        
+    }
+
+    private void OnEnable()
+    {
         // Subscribe to event
         Events.OnAcceleration += AccelerateRunAnimation;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to event
+        Events.OnAcceleration -= AccelerateRunAnimation;
     }
 
     private void Update()

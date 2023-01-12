@@ -20,7 +20,17 @@ public class Cactus : MonoBehaviour, ISpawnable
         _collider = GetComponent<BoxCollider2D>();
         _horizontalMove = GetComponent<AutoSpeedHorizontal>();
 
+        
+    }
+
+    private void OnEnable()
+    {
         Events.OnAcceleration += AddForceExplosion;
+    }
+
+    private void OnDisable()
+    {
+        Events.OnAcceleration -= AddForceExplosion;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
