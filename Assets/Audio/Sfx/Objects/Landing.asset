@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f37148050e4d0347af79b16130062dd, type: 3}
-  m_Name: Jump
+  m_Name: Landing
   m_EditorClassIdentifier: 
-  name: Jump
+  name: Landing
   audioClips:
-  - {fileID: 8300000, guid: 8827dc470b034744d92c73f735259a9b, type: 3}
-  volume: 0.6
+  - {fileID: 8300000, guid: f5cdedbd67d08814e9c88ccad2474122, type: 3}
+  volume: 0.9
   priority: 128
   pan: 0
   loop: 0

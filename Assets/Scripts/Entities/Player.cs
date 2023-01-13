@@ -8,9 +8,9 @@ using UnityEngine.Rendering;
 public class Player : MonoBehaviour
 {
     [Header("Jump")]
-    [SerializeField] [Range(0f, 10f)] float _jumpForce = 3f;
-    [SerializeField] [Range(1f, 10f)] float fallMultiplier = 2.5f;
-    [SerializeField] [Range(1f, 10f)] float lowJumpFallMultiplier = 2f;
+    [SerializeField] [Range(0f, 100f)] float _jumpForce = 3f;
+    [SerializeField] [Range(1f, 100f)] float fallMultiplier = 2.5f;
+    [SerializeField] [Range(1f, 100f)] float lowJumpFallMultiplier = 2f;
 
     [Header("Collision Ground")]
     [SerializeField] LayerMask _groundLayerMask;
@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [Header("Particles")]
     [SerializeField] ParticleSystem runParticles;
     [SerializeField] ParticleSystem jumpParticles;
+    [SerializeField] ParticleSystem landingParticles;
 
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour
     private bool _wasInAir = false;
 
     private ParticleSystem.EmissionModule _emissionRun;
+
+    private float runSoundSpeed = 0.3f;
 
     private void Awake()
     {
@@ -74,6 +77,7 @@ public class Player : MonoBehaviour
         else
         {
             _animator.SetBool("InAir", true);
+            SoundManager.Instance.StopSfx("run");
         }
 
         // Particles
@@ -89,7 +93,9 @@ public class Player : MonoBehaviour
         // When touch the ground after a jump
         if (IsOnGround() && _wasInAir)
         {
-            jumpParticles.Play();
+            landingParticles.Play();
+            SoundManager.Instance.PlaySfx("landing", transform.position);
+            SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
             Events.OnCamShake?.Invoke(1, 0.05f, 0.05f);
 
             _wasInAir = false;
@@ -114,7 +120,7 @@ public class Player : MonoBehaviour
         // Standard jump or idle
         else
         {
-            _rb.gravityScale = 1;
+            _rb.gravityScale = 2;
         }
     }
 
@@ -181,6 +187,7 @@ public class Player : MonoBehaviour
         float timeCount = 0;
         _animator.SetBool("Dead", true);
         _inputs.Player.Disable();
+        SoundManager.Instance.StopSfx("run");
 
         // "Disable" the rigidbody while freeze and shaking
         _rb.isKinematic = true;
@@ -197,6 +204,7 @@ public class Player : MonoBehaviour
         // Enable jumping and stop death animation
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
+        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
 
         // Re-enable rigidbody
         _rb.isKinematic = false;
@@ -209,6 +217,12 @@ public class Player : MonoBehaviour
     private void AccelerateRunAnimation(float osef)
     {
         _animator.speed += 0.1f;
+
+        runSoundSpeed -= 0.02f;
+        if (runSoundSpeed < 0.08f)
+            runSoundSpeed = 0.08f;
+        SoundManager.Instance.StopFadeSfx("run", 0.05f);
+        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
     }
 
     /// <summary>

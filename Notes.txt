@@ -1,13 +1,10 @@
 Rendre les groupement de cactus plus faisable à grande vitesse
 
-Sound manager : PlayFade, StopFade, Crossfade. PlayRandom(faire en sorte de pouvoir mettre
-plusieurs audioclip dans Sound, et lors du Play, si il y a plus d'un audio clip,
-en prendre 1 au hasard)
+Particule début saut
+Particule collision cactus
 
-Son de course, saut, attérissage, cactus
 Son de dialogue qui apparait
 Son de menuing
-Musique
 
 Faire une condition de gameover
 Faire une entrée de champ pour Arnold au début d'une partie

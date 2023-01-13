@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Main Theme
   m_EditorClassIdentifier: 
   name: Main Theme
-  audioClip: {fileID: 8300000, guid: afe601732aacc8c419e56dc9d4f7a5bc, type: 3}
+  audioClips:
+  - {fileID: 8300000, guid: afe601732aacc8c419e56dc9d4f7a5bc, type: 3}
   volume: 1
   priority: 0
   pan: 0

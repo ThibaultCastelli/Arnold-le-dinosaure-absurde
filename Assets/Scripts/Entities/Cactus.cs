@@ -8,6 +8,8 @@ public class Cactus : MonoBehaviour, ISpawnable
     [SerializeField][Range(0, 10f)] float maxExplosionForce = 7f;
     [SerializeField][Range(0, 100)] int explosionAngleForce = 10;
 
+    [SerializeField] ParticleSystem cactusParticle;
+
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
     private AutoSpeedHorizontal _horizontalMove;
@@ -19,8 +21,6 @@ public class Cactus : MonoBehaviour, ISpawnable
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _horizontalMove = GetComponent<AutoSpeedHorizontal>();
-
-        
     }
 
     private void OnEnable()
@@ -66,6 +66,9 @@ public class Cactus : MonoBehaviour, ISpawnable
             }
 
             StartCoroutine(ZoomAnimation());
+            SoundManager.Instance.PlaySfx("cactus_hit", transform.position);
+            cactusParticle.transform.position = transform.position;
+            cactusParticle.Play();
         }
     }
 

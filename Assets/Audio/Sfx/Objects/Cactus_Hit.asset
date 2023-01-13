@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f37148050e4d0347af79b16130062dd, type: 3}
-  m_Name: Jump
+  m_Name: Cactus_Hit
   m_EditorClassIdentifier: 
-  name: Jump
+  name: Cactus_Hit
   audioClips:
-  - {fileID: 8300000, guid: 8827dc470b034744d92c73f735259a9b, type: 3}
-  volume: 0.6
+  - {fileID: 8300000, guid: 0df9b772895a3e143a91f97482ac2103, type: 3}
+  - {fileID: 8300000, guid: 19d6d5df8625e5d49b6ca2985378d050, type: 3}
+  volume: 0.9
   priority: 128
   pan: 0
   loop: 0
-  mixerGroup: {fileID: -8891464729174781661, guid: b84f726b3afb69848a586beb60f4db39, type: 2}
+  mixerGroup: {fileID: 0}
