@@ -5,15 +5,16 @@ using UnityEngine;
 public class FloatingAnimation : MonoBehaviour
 {
     [Range(0, 20)] public float animationSpeed = 1f;
-    [Range(0, 5)] public float animationStrength = 0.5f;
+    [Range(0, 50)] public float animationStrength = 0.5f;
     
     float _x = 0f;
     float _movement;
-    float _startPos;
 
-    public void Start()
+    private RectTransform rectTransform;
+
+    private void Awake()
     {
-        _startPos = transform.position.y;
+        rectTransform = GetComponent<RectTransform>();
     }
 
     private void Update()
@@ -21,6 +22,14 @@ public class FloatingAnimation : MonoBehaviour
         // Move the object using sin function
         _x += Time.deltaTime;
         _movement = Mathf.Sin(_x * animationSpeed) * animationStrength;
-        transform.Translate(new Vector3(0, _movement * Time.deltaTime, 0));
+
+        if (rectTransform != null)
+        {
+            rectTransform.position += new Vector3(0, _movement * Time.deltaTime, 0);
+        }
+        else
+        {
+            transform.Translate(new Vector3(0, _movement * Time.deltaTime, 0));
+        }
     }
 }

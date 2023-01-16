@@ -16,11 +16,15 @@ public class Cactus : MonoBehaviour, ISpawnable
 
     private Vector2 _explosionDir;
 
+    private ParticleSystem _explosionParticle;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _horizontalMove = GetComponent<AutoSpeedHorizontal>();
+
+        _explosionParticle = Instantiate(cactusParticle, transform.position, transform.rotation, transform);
     }
 
     private void OnEnable()
@@ -67,8 +71,7 @@ public class Cactus : MonoBehaviour, ISpawnable
 
             StartCoroutine(ZoomAnimation());
             SoundManager.Instance.PlaySfx("cactus_hit", transform.position);
-            cactusParticle.transform.position = transform.position;
-            cactusParticle.Play();
+            _explosionParticle.Play();
         }
     }
 

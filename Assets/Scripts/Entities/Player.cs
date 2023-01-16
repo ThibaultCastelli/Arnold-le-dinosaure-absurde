@@ -38,11 +38,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        // Initialize inputs
-        _inputs = new PlayerInputActions();
-        _inputs.Player.Enable();
-        _inputs.Player.Jump.performed += Jump;
-
         // Get other components
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
@@ -51,8 +46,14 @@ public class Player : MonoBehaviour
         // Particles
         _emissionRun = runParticles.emission;
         _emissionRun.enabled = false;
+    }
 
-        
+    private void Start()
+    {
+        // Initialize inputs
+        _inputs = InputManager.Instance.Inputs;
+        _inputs.Player.Enable();
+        _inputs.Player.Jump.performed += Jump;
     }
 
     private void OnEnable()

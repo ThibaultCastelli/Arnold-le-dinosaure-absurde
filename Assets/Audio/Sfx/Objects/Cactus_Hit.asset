@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Cactus_Hit
   audioClips:
-  - {fileID: 8300000, guid: 0df9b772895a3e143a91f97482ac2103, type: 3}
   - {fileID: 8300000, guid: 19d6d5df8625e5d49b6ca2985378d050, type: 3}
   volume: 0.9
   priority: 128

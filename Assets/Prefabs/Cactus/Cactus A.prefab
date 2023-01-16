@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 1414633721762786007}
   - component: {fileID: 1352648204689739171}
   - component: {fileID: 8134216170424422429}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cactus A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,3 +209,4 @@ MonoBehaviour:
   explosionForce: 3
   maxExplosionForce: 2
   explosionAngleForce: 10
+  cactusParticle: {fileID: 1439296487238913453, guid: dda342206cac9be4d9617e7f649b4389, type: 3}

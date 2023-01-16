@@ -1,14 +1,11 @@
-Rendre les groupement de cactus plus faisable à grande vitesse
-
-Particule début saut
-Particule collision cactus
-
+Sound Manager : faire une fonction IsSoundPlaying(string soundName)
 Son de dialogue qui apparait
 Son de menuing
 
 Faire une condition de gameover
 Faire une entrée de champ pour Arnold au début d'une partie
 
+Déclencher les cactus après avoir passé le premier dialogue
 Boite de dialogue
 Ecrire l'histoire d'arnold
 
@@ -17,3 +14,17 @@ Cycle jour nuit
 
 Menu principal
 
+Histoire :
+Je m'appel Arnold, et cela fait maintenant 4 ans que je cours, sans savoir pourquoi.
+Tout à commencé un matin. 
+Lorsque je me suis réveillé, mes jambes se sont mises en action.
+Comme par magie, il m'était tout à coup impossible de les arrêter.
+Dans cette folle course, j'ai dû quitté ma maison, mon village, ma famille, et mes amis.
+J'ai pourtant essayé de m'accrocher à quelque chose, n'importe quoi, pour m'arrêter.
+Mais mes jambes ne veulent rien savoir.
+Elles m'obligent à rester sur un terrain plat, et elles me dirigent systématiquement vers des cactus.
+Toute la peine que j'éprouvais alors ne me redonnait pas plus de contrôle sur mes membres inférieurs.
+Étrangement, je ne ressent aucune fatigue physique.
+J'arrive à récupérer quelques lésards sur le chemin pour les manger.
+J'ai fini par me faire au goût.
+J'attends patiement la pluie afin de boire, en ouvrant la gueule face au ciel.
