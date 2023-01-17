@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f37148050e4d0347af79b16130062dd, type: 3}
+  m_Name: DialogueVoice
+  m_EditorClassIdentifier: 
+  name: DialogueVoice
+  type: 1
+  allowMultiplePlay: 1
+  audioClips:
+  - {fileID: 8300000, guid: ca2ba15f059733e4e991330e5e9c864e, type: 3}
+  - {fileID: 8300000, guid: a5c60c5423663b34a952c19907d4307c, type: 3}
+  - {fileID: 8300000, guid: 2317ce15f5e4e9548944076aad1b1877, type: 3}
+  - {fileID: 8300000, guid: 2bb6c0c45d6b0a346afb6485a188a305, type: 3}
+  - {fileID: 8300000, guid: 5dee75c47c62627419778c50d59321cd, type: 3}
+  - {fileID: 8300000, guid: 805fa87061f5e874a82e4858f3997a05, type: 3}
+  - {fileID: 8300000, guid: 9a1f8f1d5bbc9f944bbbd4fe6d367295, type: 3}
+  - {fileID: 8300000, guid: a523d054e3235b04aad83c062c3a9c2f, type: 3}
+  - {fileID: 8300000, guid: 36b8050ae1fdefe4c842574f8bc8e178, type: 3}
+  - {fileID: 8300000, guid: 64a4a51833e9d594f9acdb5ccc13a5a0, type: 3}
+  - {fileID: 8300000, guid: 9874de1677e12eb429030db5eacf3506, type: 3}
+  volume: 0.9
+  priority: 128
+  pan: 0
+  loop: 0
+  mixerGroup: {fileID: -8891464729174781661, guid: b84f726b3afb69848a586beb60f4db39, type: 2}

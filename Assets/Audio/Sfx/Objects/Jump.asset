@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Jump
   m_EditorClassIdentifier: 
   name: Jump
+  type: 0
+  allowMultiplePlay: 1
   audioClips:
   - {fileID: 8300000, guid: 8827dc470b034744d92c73f735259a9b, type: 3}
-  volume: 0.6
+  volume: 0.5
   priority: 128
   pan: 0
   loop: 0

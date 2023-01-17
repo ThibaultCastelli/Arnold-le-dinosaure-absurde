@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: BtnClick
   type: 1
+  allowMultiplePlay: 1
   audioClips:
-  - {fileID: 8300000, guid: 0bef847f649d0e048b8ce808307d8f2d, type: 3}
+  - {fileID: 8300000, guid: b9f1c2341953a244eb26b3e20f211981, type: 3}
   volume: 1
   priority: 128
   pan: 0

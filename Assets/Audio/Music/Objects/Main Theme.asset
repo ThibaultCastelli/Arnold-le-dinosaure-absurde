@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Main Theme
   m_EditorClassIdentifier: 
   name: Main Theme
+  type: 0
+  allowMultiplePlay: 1
   audioClips:
   - {fileID: 8300000, guid: afe601732aacc8c419e56dc9d4f7a5bc, type: 3}
-  volume: 1
+  volume: 0.9
   priority: 0
   pan: 0
   loop: 1

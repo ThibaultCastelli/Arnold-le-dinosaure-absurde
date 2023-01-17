@@ -9,6 +9,7 @@ public class Sound : ScriptableObject
     [Header("General infos")]
     public new string name;
     public SoundType type;
+    public bool allowMultiplePlay = true;
 
     [Header("Sounds")]
     public AudioClip[] audioClips;

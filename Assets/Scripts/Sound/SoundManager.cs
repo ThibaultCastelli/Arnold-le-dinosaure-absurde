@@ -246,7 +246,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            AudioSource source = FindAudioSource(sourcesAvailable, sound.priority);
+            AudioSource source = FindAudioSource(sourcesAvailable, sound);
 
             if (source == null && showDebug)
             {
@@ -559,6 +559,32 @@ public class SoundManager : MonoBehaviour
             Debug.Log($"Can't find any sound named {soundName.ToUpper()} to be stopped.");
         }
     }
+
+    public void StopMusicControlLoop(string musicName)
+    {
+        StopSoundControlLoop(musicName, musicSources);
+    }
+
+    public void StopSfxControlLoop(string sfxName)
+    {
+        StopSoundControlLoop(sfxName, sfxSources);
+    }
+
+    private void StopSoundControlLoop(string soundName, AudioSource[] sourcesToSearch)
+    {
+        List<AudioSource> sources = FindSoundOnSource(soundName, sourcesToSearch, true);
+
+        foreach (AudioSource source in sources)
+        {
+            //StartCoroutine(StopSoundControlLoopCoroutine(source));
+            RemoveCoroutine(source);
+        }
+
+        if (sources.Count == 0 && showDebug)
+        {
+            Debug.Log($"Can't find any sound named {soundName.ToUpper()} to be stopped.");
+        }
+    }
     #endregion
 
     #region Pause
@@ -834,17 +860,38 @@ public class SoundManager : MonoBehaviour
     /// Find a free audio source to play a sound.
     /// </summary>
     /// <param name="sources">The possible audio sources to play.</param>
-    /// <param name="priority">The priority of the sound we want to play.</param>
+    /// <param name="sound">Sound we want to play.</param>
     /// <returns>A free audio source or null if the sound we want to play has not enough priority.</returns>
-    private AudioSource FindAudioSource(AudioSource[] sources, int priority)
+    private AudioSource FindAudioSource(AudioSource[] sources, Sound sound)
     {
+        // Stock a free source
+        AudioSource freeSource = null;
+
         // Search for an audio source that is not playing
         foreach(AudioSource source in sources)
         {
-            if(!source.isPlaying)
+            // If sound is allowing multiple play, find the first source that is not playing a sound
+            if(sound.allowMultiplePlay && !source.isPlaying)
             {
                 return source;
             }
+            // Else find where was played this sound
+            else if (!sound.allowMultiplePlay && source.clip != null)
+            {
+                if (source.clip.name == sound.name)
+                    return source;
+            }
+            // In case the sound is not in any source, save a free source
+            else if (!source.isPlaying)
+            {
+                freeSource = source;
+            }
+        }
+
+        // If the sound don't allow multiple play but was not in any source, give it a free source
+        if (!sound.allowMultiplePlay && freeSource != null)
+        {
+            return freeSource;
         }
 
         // If no audio source available, find the one with the lowest priority
@@ -860,7 +907,7 @@ public class SoundManager : MonoBehaviour
         }
 
         // Check the sound we want to play has less priority than the lowest we found
-        if(priority < lowestPriority)
+        if(sound.priority < lowestPriority)
         {
             return sources[indexLowestPriority];
         }

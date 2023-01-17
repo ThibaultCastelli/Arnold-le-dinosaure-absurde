@@ -1,7 +1,4 @@
 Sound Manager : faire une fonction IsSoundPlaying(string soundName)
-Ajouter une option sur Sound pour ne pouvoir être joué qu'une seule fois en même temps (éviter carnage sur
-hover ui)
-Son de dialogue
 
 Animation UI
 
@@ -14,7 +11,9 @@ Ecrire l'histoire d'arnold
 Faire des ombres sur le sol des cactus + joueur (à voir avec systèmes light 2d)
 Cycle jour nuit
 
-
+Faire les crédits :
+enter key by Nubaia Karim Barsha, from thenounproject.com CC BY 3.0 
+Space Bar by Ricki Tri Putra, from thenounproject.com CC BY 3.0 
 
 Histoire :
 Je m'appel Arnold, et cela fait maintenant 4 ans que je cours, sans savoir pourquoi.

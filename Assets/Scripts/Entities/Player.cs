@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         else
         {
             _animator.SetBool("InAir", true);
-            SoundManager.Instance.StopSfx("run");
+            SoundManager.Instance.StopSfxControlLoop("run");
         }
 
         // Particles
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         float timeCount = 0;
         _animator.SetBool("Dead", true);
         _inputs.Player.Disable();
-        SoundManager.Instance.StopSfx("run");
+        SoundManager.Instance.StopSfxControlLoop("run");
 
         // "Disable" the rigidbody while freeze and shaking
         _rb.isKinematic = true;

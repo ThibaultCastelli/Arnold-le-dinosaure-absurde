@@ -17,22 +17,24 @@ public class DialogueReader : MonoBehaviour
     private bool _isGamePaused = false;
     private string _lastSentence;
 
+    private RectTransform rectTransform;
+
     private void Awake()
     {
         text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        rectTransform = GetComponent<RectTransform>();
 
         // Enqueue the sentences from the dialogue put in the inspector
         foreach(string sentence in dialogue.sentences)
         {
             _sentences.Enqueue(sentence);
-        }
-
-        StartDialogue();
+        } 
     }
 
     private void Start()
     {
         InputManager.Instance.Inputs.Player.NextDialogue.performed += ContinueDialogue;
+        StartDialogue();
     }
 
     private void OnEnable()
@@ -48,6 +50,15 @@ public class DialogueReader : MonoBehaviour
     private void PauseDialogue(bool isPaused)
     {
         _isGamePaused = isPaused;
+
+        if (isPaused)
+        {
+            rectTransform.position = new Vector3(rectTransform.position.x, -300, rectTransform.position.z);
+        }
+        else
+        {
+            rectTransform.position = new Vector3(rectTransform.position.x, 20, rectTransform.position.z);
+        }
     }
 
     /// <summary>
@@ -55,10 +66,12 @@ public class DialogueReader : MonoBehaviour
     /// </summary>
     private void StartDialogue()
     {
-        // TODO: animation of the panel
+        LeanTween.moveY(gameObject, 20, 1).setEaseInOutCubic();
 
         // Read the first sentence
-        ContinueDialogue(new InputAction.CallbackContext());
+        _lastSentence = _sentences.Dequeue();
+        StopAllCoroutines();
+        StartCoroutine(ShowSentenceCoroutine(_lastSentence));
     }
 
     /// <summary>
@@ -71,6 +84,7 @@ public class DialogueReader : MonoBehaviour
         {
             // Stop the animation and show all the sentence
             StopAllCoroutines();
+            SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
             text.text = _lastSentence;
             _isShowingSentence = false;
         }
@@ -101,6 +115,7 @@ public class DialogueReader : MonoBehaviour
     private IEnumerator ShowSentenceCoroutine(string sentence)
     {
         _isShowingSentence = true;
+        SoundManager.Instance.PlaySfxControlLoop("DialogueVoice", 0.9f);
         // Reset the text field of the dialogue box
         text.text = ""; 
 
@@ -119,6 +134,8 @@ public class DialogueReader : MonoBehaviour
 
         // Indiquate that the animation is over
         _isShowingSentence = false;
+
+        SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
     }
 
     private void EndDialogue()

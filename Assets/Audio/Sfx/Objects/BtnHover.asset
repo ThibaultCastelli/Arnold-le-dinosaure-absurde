@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: BtnHover
   type: 1
+  allowMultiplePlay: 0
   audioClips:
-  - {fileID: 8300000, guid: f358133b2f176ef43868765fbbd01dd7, type: 3}
+  - {fileID: 8300000, guid: 6b70075d3bc4daf489b67f99a6aa3353, type: 3}
   volume: 0.5
   priority: 128
   pan: 0
