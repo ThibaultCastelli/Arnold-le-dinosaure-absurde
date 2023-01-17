@@ -9,13 +9,19 @@ using UnityEngine.UIElements;
 
 public class SoundManager : MonoBehaviour
 {
+    [Header("Infos")]
     [SerializeField] bool muteMusic = false;
     [SerializeField] bool muteSfx = false;
     [SerializeField] bool showDebug = false;
 
+    [Header("Other")]
+    [SerializeField] AudioMixerGroup masterGroup;
+
+    [Header("Sounds")]
     [SerializeField] Sound[] musicSounds;
     [SerializeField] Sound[] sfxSounds;
 
+    [Header("Sources")]
     [SerializeField][Range(1, 5)] int maxMusicSource = 1;
     [SerializeField] [Range(1, 15)] int maxSfxSource = 3;
 
@@ -75,9 +81,50 @@ public class SoundManager : MonoBehaviour
         CheckMute();
     }
 
+    private void OnEnable()
+    {
+        Events.OnGamePause += MusicLowPass;
+        Events.OnVolumeChange += ChangeMasterVolume;
+    }
+
+    private void OnDisable()
+    {
+        Events.OnGamePause -= MusicLowPass;
+        Events.OnVolumeChange -= ChangeMasterVolume;
+    }
+
     private void OnValidate()
     {
         CheckMute();
+    }
+
+    private void ChangeMasterVolume(float volume)
+    {
+        masterGroup.audioMixer.SetFloat("MasterVolume", volume);
+    }
+
+    private void MusicLowPass(bool isPause)
+    {
+        if(isPause)
+        {
+            foreach(AudioSource source in musicSources)
+            {
+                if(source.isPlaying)
+                {
+                    source.outputAudioMixerGroup.audioMixer.SetFloat("MusicLowPassFilter", 3000);
+                }
+            }
+        }
+        else
+        {
+            foreach (AudioSource source in musicSources)
+            {
+                if (source.isPlaying)
+                {
+                    source.outputAudioMixerGroup.audioMixer.SetFloat("MusicLowPassFilter", 22000);
+                }
+            }
+        }
     }
 
     #region Play
@@ -780,6 +827,7 @@ public class SoundManager : MonoBehaviour
         source.panStereo = sound.pan;
         source.loop = sound.loop;
         source.outputAudioMixerGroup = sound.mixerGroup;
+        source.spatialBlend = 0;
     }
 
     /// <summary>

@@ -25,4 +25,4 @@ MonoBehaviour:
   priority: 128
   pan: 0
   loop: 0
-  mixerGroup: {fileID: 0}
+  mixerGroup: {fileID: -8891464729174781661, guid: b84f726b3afb69848a586beb60f4db39, type: 2}

@@ -125,6 +125,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name == "TriggerGameOver")
+        {
+            Debug.Log("Game Over");
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Cactus cactus = collision.gameObject.GetComponent<Cactus>();

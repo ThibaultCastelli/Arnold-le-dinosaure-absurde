@@ -7,3 +7,12 @@ public enum HorizontalDirection
     Left,
     Right,
 }
+
+/// <summary>
+/// Represent the type of a sound object.
+/// </summary>
+public enum SoundType
+{
+    Music,
+    Sfx,
+}
