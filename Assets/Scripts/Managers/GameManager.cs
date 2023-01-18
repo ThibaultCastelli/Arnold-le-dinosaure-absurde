@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject cactusSpawner;
+    [SerializeField] GameObject mountainSpawner;
 
     private void Awake()
     {
@@ -16,16 +17,20 @@ public class GameManager : MonoBehaviour
     {
         Events.OnFirstDialoguePass += ActivateCactusSpawner;
         Events.OnGamePause += Pause;
+        Events.OnGameOver += GameOver;
+        Events.OnGameRestart += Restart;
     }
 
     private void OnDisable()
     {
         Events.OnFirstDialoguePass -= ActivateCactusSpawner;
         Events.OnGamePause -= Pause;
+        Events.OnGameOver -= GameOver;
+        Events.OnGameRestart -= Restart;
     }
 
     /// <summary>
-    /// Päuse the game
+    /// Pause the game
     /// </summary>
     /// <param name="isPaused">True if the game is paused, otherwise false.</param>
     private void Pause(bool isPaused)
@@ -46,5 +51,22 @@ public class GameManager : MonoBehaviour
     private void ActivateCactusSpawner()
     {
         cactusSpawner.SetActive(true);
+    }
+
+    /// <summary>
+    /// Deactivate cactus and mountain spawner.
+    /// </summary>
+    private void GameOver()
+    {
+        cactusSpawner.SetActive(false);
+        mountainSpawner.SetActive(false);
+    }
+
+    /// <summary>
+    /// Re-activate mountain spawner.
+    /// </summary>
+    private void Restart()
+    {
+        mountainSpawner.SetActive(true);
     }
 }

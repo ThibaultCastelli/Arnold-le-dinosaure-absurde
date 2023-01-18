@@ -15,7 +15,8 @@ public class CactusSpawner : MonoBehaviour
     [SerializeField][Range(0f, 5f)] float _strengthAccelerationCactus = 0.2f;
     [SerializeField][Range(0.1f, 20f)] float _maxCactusSpeed = 10f;
 
-    private Spawner spawner;
+    private Spawner _spawner;
+
     private float _timeCount = 0;
     private float _currCactusSpeed;
 
@@ -27,13 +28,16 @@ public class CactusSpawner : MonoBehaviour
     private void Awake()
     {
         // Get component
-        spawner = GetComponent<Spawner>();
+        _spawner = GetComponent<Spawner>();
     }
 
     private void OnEnable()
     {
         // Subscribe to event
         Events.OnAcceleration += AccelerateCactus;
+
+        // Reset all the cactus positions
+        _spawner.DespawnAll(); 
     }
 
     private void OnDisable()
@@ -54,9 +58,9 @@ public class CactusSpawner : MonoBehaviour
         if (_timeCount >= _timeBetweenAcceleration)
         {
             // If not already at full speed of spawn
-            if (spawner.TimeBetweenSpawn > _maxSpawnSpeed)
+            if (_spawner.TimeBetweenSpawn > _maxSpawnSpeed)
             {
-                spawner.AddTimeOfSpawn(-_strengthAcceleration);
+                _spawner.AddTimeOfSpawn(-_strengthAcceleration);
             }
             // If not already at full speed of cactus
             if (_currCactusSpeed < _maxCactusSpeed)

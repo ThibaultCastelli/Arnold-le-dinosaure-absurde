@@ -123,4 +123,15 @@ public class Spawner : MonoBehaviour
         GameObject newSpawn = AddToPool();
         newSpawn.GetComponent<ISpawnable>().Spawn(transform.position, transform.rotation);
     }
+
+    /// <summary>
+    /// Despawn all game objects in the pool.
+    /// </summary>
+    public void DespawnAll()
+    {
+        foreach(GameObject obj in _pool)
+        {
+            obj.GetComponent<ISpawnable>().Despawn();
+        }
+    }
 }

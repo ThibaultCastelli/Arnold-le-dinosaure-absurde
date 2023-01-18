@@ -1,6 +1,6 @@
 Sound Manager : faire une fonction IsSoundPlaying(string soundName)
 
-Faire une condition de gameover
+Faire une condition de fin de partie
 
 Ecrire l'histoire d'arnold
 

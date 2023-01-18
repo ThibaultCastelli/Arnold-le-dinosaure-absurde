@@ -31,10 +31,10 @@ public class Player : MonoBehaviour
     private PlayerInputActions _inputs;
     private AutoSpeedHorizontal _horizontalComponent;
 
-    private bool _wasInAir = false;
-
+    private GameObject deathTrigger = null;
     private ParticleSystem.EmissionModule _emissionRun;
 
+    private bool _wasInAir = false;
     private float runSoundSpeed = 0.3f;
 
     private void Awake()
@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
         // Subscribe to event
         Events.OnAcceleration += AccelerateRunAnimation;
         Events.OnGameStart += StartGame;
+        Events.OnGameRestart += Restart;
     }
 
     private void OnDisable()
@@ -70,6 +71,7 @@ public class Player : MonoBehaviour
         // Unsubscribe to event
         Events.OnAcceleration -= AccelerateRunAnimation;
         Events.OnGameStart -= StartGame;
+        Events.OnGameRestart -= Restart;
     }
 
     private void Update()
@@ -131,14 +133,24 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Collision with trigger game over
         if (collision.name == "TriggerGameOver")
         {
-            Debug.Log("Game Over");
+            Events.OnGameOver?.Invoke();
+
+            // Prevent moving and go out of screen
+            _horizontalComponent.enabled = false;
+            StartCoroutine(GameOverFreeze());
+
+            // Desactivate death trigger to be able to reach start point on restart
+            deathTrigger = collision.gameObject;
+            deathTrigger.SetActive(false);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Collision with a cactus
         Cactus cactus = collision.gameObject.GetComponent<Cactus>();
         if (cactus != null)
         {
@@ -155,13 +167,43 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        StartCoroutine(StartGameCoroutine());
+        // Start moving horizontally
         _horizontalComponent.enabled = true;
+        // Enable player controls after the out animation of main menu
+        StartCoroutine(StartGameCoroutine());
     }
     private IEnumerator StartGameCoroutine()
     {
         yield return new WaitForSeconds(1);
         _inputs.Player.Enable();
+    }
+
+    /// <summary>
+    /// Reset properties to restart the game.
+    /// </summary>
+    private void Restart()
+    {
+        // Move the player to start position
+        LeanTween.moveX(gameObject, 0, 1f);
+
+        // Enable jumping and stop death animation
+        _animator.SetBool("Dead", false);
+        _inputs.Player.Enable();
+        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
+
+        // Re-enable rigidbody
+        _rb.isKinematic = false;
+
+        // Re-enable auto horizontal move
+        _horizontalComponent.enabled = true;
+
+        // Reset death trigger after passing it
+        StartCoroutine(ResetDeathTrigger());
+    }
+    private IEnumerator ResetDeathTrigger()
+    {
+        yield return new WaitForSeconds(1.5f);
+        deathTrigger.SetActive(true);
     }
 
     /// <summary>
@@ -203,6 +245,27 @@ public class Player : MonoBehaviour
 
         // Reset position
         transform.position = originalPos;
+    }
+
+    /// <summary>
+    /// Remove the player from the screen when gameover.
+    /// </summary>
+    private IEnumerator GameOverFreeze()
+    {
+        _animator.SetBool("Dead", true);
+        _inputs.Player.Disable();
+        SoundManager.Instance.StopSfxControlLoop("run");
+
+        // "Disable" the rigidbody while freeze and shaking
+        _rb.isKinematic = true;
+        _rb.velocity = Vector2.zero;
+
+        while(transform.position.x > -5)
+        {
+            // Move the player to the left
+            transform.Translate(Vector2.left * speedMoveBack * Time.deltaTime);
+            yield return null;
+        }
     }
 
     /// <summary>

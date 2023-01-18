@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Main menu")]
     [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject mainMenuTitle;
     [SerializeField] GameObject mainMenuBtns; 
     [SerializeField] GameObject mainMenuOptions;
     [SerializeField] GameObject mainMenuControls;
@@ -27,6 +28,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] Slider sliderVolume;
     [SerializeField] TextMeshProUGUI fullscreenTxtPauseMenu;
 
+    [Header("Gameover menu")]
+    [SerializeField] GameObject gameoverMenu;
+    [SerializeField] GameObject restartBtn;
+
     [Header("Other")]
     [SerializeField] EventSystem eventSystem;
 
@@ -37,19 +42,58 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        // Get original colors
         _originalSliderColor = sliderImagePauseMenu.color;
         _originalFullscreenTxtColor = fullscreenTxtPauseMenu.color;
 
+        // Set default selected button
         eventSystem.SetSelectedGameObject(playBtn);
+
+        // Animation of main menu on start of the game
+        LeanTween.moveLocalX(mainMenuBtns, 0, 0.7f).setEaseOutBack();
+        LeanTween.moveLocal(mainMenuControls, new Vector3(600, -24, 0), 0.7f).setEaseOutBack();
+        LeanTween.moveLocalY(mainMenuTitle, 500, 0.7f).setEaseOutBack();
     }
 
     private void Start()
     {
-        
-
         // Default value for the slider
         // TODO: save the slider volume to playerprefs and get it on start
         sliderVolume.value = 0.66f;
+    }
+
+    private void OnEnable()
+    {
+        Events.OnGameOver += ShowGameOver;
+    }
+    private void OnDisable()
+    {
+        Events.OnGameOver -= ShowGameOver;
+    }
+
+    /// <summary>
+    /// Function for "rejouer" button.
+    /// </summary>
+    public void Restart()
+    {
+        // Animation out of "rejouer" button
+        LeanTween.moveLocalX(gameoverMenu, 1230, 1).setEaseOutBack();
+
+        // Deselect button
+        eventSystem.SetSelectedGameObject(null);
+
+        Events.OnGameRestart?.Invoke();
+    }
+
+    /// <summary>
+    /// Triggered by OnGameOver event. Show the "rejouer" button.
+    /// </summary>
+    private void ShowGameOver()
+    {
+        // Animation in of "rejouer" button
+        LeanTween.moveLocalX(gameoverMenu, 0, 1).setEaseOutBack();
+        // Select "rejouer" button
+        eventSystem.SetSelectedGameObject(restartBtn);
     }
 
     /// <summary>
@@ -57,12 +101,15 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void Play()
     {
+        // Animation out of main menu
         LeanTween.moveLocalY(mainMenu, 1100, 1).setEaseInCubic();
         LeanTween.moveLocalX(mainMenuCredits, 2000, 0.5f);
         
         Events.OnGameStart?.Invoke();
 
         InputManager.Instance.Inputs.UI.Disable();
+        eventSystem.SetSelectedGameObject(null);
+
         InputManager.Instance.Inputs.Player.Pause.performed += Pause;
         InputManager.Instance.Inputs.UI.Cancel.performed += Pause;
     }
@@ -72,17 +119,24 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void GoToOptions()
     {
+        // Animation
         LeanTween.moveLocalX(mainMenuBtns, -2000, 0.4f).setEaseInBack();
         LeanTween.moveLocalX(mainMenuOptions, 5, 0.8f).setEaseInOutBack();
         LeanTween.moveLocal(mainMenuControls, new Vector3(-550, -380, 0), 0.7f).setEaseInOutCirc();
+
         eventSystem.SetSelectedGameObject(backBtn);
     }
 
+    /// <summary>
+    /// Function for the "credits" button on the main menu.
+    /// </summary>
     public void GoToCredits()
     {
+        // Animation
         LeanTween.moveLocalX(mainMenuBtns, -2000, 0.4f).setEaseInBack();
         LeanTween.moveLocalX(mainMenuControls, 1600, 0.4f).setEaseInBack();
         LeanTween.moveLocalY(mainMenuCredits, -190, 0.6f).setEaseOutQuart();
+
         eventSystem.SetSelectedGameObject(backBtnCredits);
     }
 
@@ -91,10 +145,12 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void Back()
     {
+        // Animation
         LeanTween.moveLocalX(mainMenuBtns, 0, 0.7f).setEaseOutBack();
         LeanTween.moveLocalX(mainMenuOptions, 630, 0.2f).setEaseInBack();
         LeanTween.moveLocal(mainMenuControls, new Vector3(600, -24, 0), 0.7f).setEaseOutBack();
         LeanTween.moveLocalY(mainMenuCredits, -1200, 0.4f).setEaseInBack();
+
         eventSystem.SetSelectedGameObject(playBtn);
     }
 
@@ -134,22 +190,26 @@ public class UIManager : MonoBehaviour
 
     public void HighlightFullscreen()
     {
+        // Highlight fullscreen text
         fullscreenTxtPauseMenu.color = Color.white;
         fullscreenTxtMainMenu.color = Color.white;
     }
     public void DelightFullscreen()
     {
+        // Delight fullscreen text
         fullscreenTxtPauseMenu.color = _originalFullscreenTxtColor;
         fullscreenTxtMainMenu.color = _originalFullscreenTxtColor;
     }
 
     public void HighlightAudioVolume()
     {
+        // Highlight audio image
         sliderImagePauseMenu.color = Color.white;
         sliderImageMainMenu.color = Color.white;
     }
     public void DelightAudioVolume()
     {
+        // Delight audio image
         sliderImagePauseMenu.color = _originalSliderColor;
         sliderImageMainMenu.color = _originalSliderColor;
     }

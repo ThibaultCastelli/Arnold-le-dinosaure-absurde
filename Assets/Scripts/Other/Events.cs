@@ -36,6 +36,13 @@ public static class Events
     public static Action OnGameStart;
 
     /// <summary>
+    /// Event triggered when the player loose.
+    /// </summary>
+    public static Action OnGameOver;
+
+    public static Action OnGameRestart;
+
+    /// <summary>
     /// Event triggered when the global volume is changed in the menu.
     /// </summary>
     public static Action<float> OnVolumeChange;

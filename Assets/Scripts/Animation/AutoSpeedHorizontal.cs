@@ -6,11 +6,14 @@ public class AutoSpeedHorizontal : MonoBehaviour
 {
     [SerializeField] [Range(0, 50)] float _speed = 1f;
     [SerializeField] HorizontalDirection _direction;
+    [SerializeField] bool continueMovingAfterGameOver = false;
 
     private Vector3 _dir;
+    private Rigidbody2D _rb;
+
     private bool _move = true;
 
-    private Rigidbody2D _rb;
+    private float _defaultSpeed;
 
     /// <summary>
     /// Horizontal speed.
@@ -49,6 +52,26 @@ public class AutoSpeedHorizontal : MonoBehaviour
         }
 
         _rb = GetComponent<Rigidbody2D>();
+
+        _defaultSpeed = _speed;
+    }
+
+    private void OnEnable()
+    {
+        if (!continueMovingAfterGameOver)
+        {
+            Events.OnGameOver += StopSpeed;
+            Events.OnGameRestart += ResetSpeed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!continueMovingAfterGameOver)
+        {
+            Events.OnGameOver -= StopSpeed;
+            Events.OnGameRestart += ResetSpeed;
+        }
     }
 
     private void Update()
@@ -67,5 +90,21 @@ public class AutoSpeedHorizontal : MonoBehaviour
         {
             _rb.position += new Vector2(_dir.x, _dir.y) * _speed * Time.fixedDeltaTime;
         }
+    }
+
+    /// <summary>
+    /// Slowly stop the horizontal movement.
+    /// </summary>
+    private void StopSpeed()
+    {
+        LeanTween.value(_speed, 0, 1).setOnUpdate((float value) => _speed = value);
+    }
+
+    /// <summary>
+    /// Restart the horizontal movement.
+    /// </summary>
+    private void ResetSpeed()
+    {
+        _speed = _defaultSpeed;
     }
 }

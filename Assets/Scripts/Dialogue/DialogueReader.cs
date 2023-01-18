@@ -15,12 +15,17 @@ public class DialogueReader : MonoBehaviour
     private bool _isShowingSentence = false;
     private bool _isFirstDialogue = true;
     private bool _isGamePaused = false;
-    private string _lastSentence;
+    private bool _isGameOver = false;
+    private bool _isGameRestart = false;
+
+    private string _currSentence;
+    private string _sentenceBeforeGameover;
 
     private RectTransform rectTransform;
 
     private void Awake()
     {
+        // Get components
         text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         rectTransform = GetComponent<RectTransform>();
 
@@ -40,14 +45,56 @@ public class DialogueReader : MonoBehaviour
     {
         Events.OnGamePause += PauseDialogue;
         Events.OnGameStart += StartDialogue;
+        Events.OnGameOver += GameOverDialogue;
+        Events.OnGameRestart += RestartDialogue;
     }
 
     private void OnDisable()
     {
         Events.OnGamePause -= PauseDialogue;
         Events.OnGameStart -= StartDialogue;
+        Events.OnGameOver -= GameOverDialogue;
+        Events.OnGameRestart -= RestartDialogue;
     }
 
+    /// <summary>
+    /// Show a game over sentence and prevent to show more dialogue
+    /// </summary>
+    private void GameOverDialogue()
+    {
+        // Stop current sentence and sound
+        StopAllCoroutines();
+        SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
+
+        // Show game over sentence
+        StartCoroutine(ShowSentenceCoroutine("La folle course d'Arnold s'arrêta d'une bien triste façon."));
+
+        _isGameOver = true;
+        _sentenceBeforeGameover = _currSentence;
+    }
+
+    /// <summary>
+    /// Show restart dialogue and re-enable to show more dialogues
+    /// </summary>
+    private void RestartDialogue()
+    {
+        // Stop current sentence and sound
+        StopAllCoroutines();
+        SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
+
+        // Show restart sentence
+        _currSentence = "Bref, où en étais-je... Ha oui !";
+        StartCoroutine(ShowSentenceCoroutine(_currSentence));
+
+        _isGameOver = false;
+        _isFirstDialogue = true;
+        _isGameRestart = true;
+    }
+
+    /// <summary>
+    /// Show or hide the dialogue panel when the game is paused or unpaused.
+    /// </summary>
+    /// <param name="isPaused">True if the game is paused, otherwise false.</param>
     private void PauseDialogue(bool isPaused)
     {
         _isGamePaused = isPaused;
@@ -67,12 +114,13 @@ public class DialogueReader : MonoBehaviour
     /// </summary>
     private void StartDialogue()
     {
+        // Animation in
         LeanTween.moveY(gameObject, 20, 1).setEaseInOutCubic();
 
         // Read the first sentence
-        _lastSentence = _sentences.Dequeue();
+        _currSentence = _sentences.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(ShowSentenceCoroutine(_lastSentence));
+        StartCoroutine(ShowSentenceCoroutine(_currSentence));
     }
 
     /// <summary>
@@ -81,21 +129,36 @@ public class DialogueReader : MonoBehaviour
     private void ContinueDialogue(InputAction.CallbackContext ctx)
     {
         // If the animation of the letters is running
-        if(_isShowingSentence)
+        if(_isShowingSentence && !_isGameOver)
         {
-            // Stop the animation and show all the sentence
+            // Stop the animation and sound
             StopAllCoroutines();
             SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
-            text.text = _lastSentence;
+
+            // Show all the sentence
+            text.text = _currSentence;
+
             _isShowingSentence = false;
         }
-        else if (_sentences.Count > 0)
+        else if (_sentences.Count > 0 && !_isGameOver)
         {
-            // Else start the animation of the next sentence
-            _lastSentence = _sentences.Dequeue();
+            // Stop sentence animation
             StopAllCoroutines();
-            StartCoroutine(ShowSentenceCoroutine(_lastSentence));
 
+            if (_isGameRestart)
+            {
+                // Show the sentence before game over
+                StartCoroutine(ShowSentenceCoroutine(_sentenceBeforeGameover));
+                _currSentence = _sentenceBeforeGameover;
+                _isGameRestart = false;
+            }
+            else
+            {
+                // Show next sentence
+                _currSentence = _sentences.Dequeue();
+                StartCoroutine(ShowSentenceCoroutine(_currSentence));
+            }
+            
             // Start to invoke cactus after the first dialogue is passed
             if (_isFirstDialogue)
             {
@@ -103,7 +166,7 @@ public class DialogueReader : MonoBehaviour
                 Events.OnFirstDialoguePass?.Invoke();
             }
         }
-        else
+        else if (!_isGameOver)
         {
             EndDialogue();
         }
@@ -115,8 +178,11 @@ public class DialogueReader : MonoBehaviour
     /// <param name="sentence">The sentence to animate.</param>
     private IEnumerator ShowSentenceCoroutine(string sentence)
     {
+        // Indiquate that the animation is running
         _isShowingSentence = true;
+
         SoundManager.Instance.PlaySfxControlLoop("DialogueVoice", 0.9f);
+
         // Reset the text field of the dialogue box
         text.text = ""; 
 

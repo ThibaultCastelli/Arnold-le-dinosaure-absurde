@@ -117,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _direction: 0
+  continueMovingAfterGameOver: 1
 --- !u!114 &1648190045
 MonoBehaviour:
   m_ObjectHideFlags: 0

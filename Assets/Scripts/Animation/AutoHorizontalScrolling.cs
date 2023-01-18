@@ -8,11 +8,14 @@ public class AutoHorizontalScrolling : MonoBehaviour
     [SerializeField] HorizontalDirection _scrollDirection;
     [SerializeField] bool _accelerate = true;
 
-    private Vector3 _dir;   // Direction of the scrolling
-    private float _startPos;
+    private Vector3 _dir;
+
+    private float _startPos; 
+    private float _deltaPos;
+
     private float _spriteWidth;
 
-    private float _deltaPos;
+    private float _defaultSpeed;
     
     void Awake()
     {
@@ -26,6 +29,8 @@ public class AutoHorizontalScrolling : MonoBehaviour
                 _dir = Vector3.right;
                 break;
         }
+
+        _defaultSpeed = _scrollSpeed;
 
         // Get start position
         _startPos = transform.position.x;
@@ -44,8 +49,6 @@ public class AutoHorizontalScrolling : MonoBehaviour
         {
             Instantiate(transform.GetChild(i), clone.transform);
         }
-
-        
     }
 
     private void OnEnable()
@@ -55,6 +58,9 @@ public class AutoHorizontalScrolling : MonoBehaviour
         {
             Events.OnAcceleration += Accelerate;
         }
+
+        Events.OnGameOver += StopScrolling;
+        Events.OnGameRestart += ResetScrolling;
     }
 
     private void OnDisable()
@@ -64,6 +70,9 @@ public class AutoHorizontalScrolling : MonoBehaviour
         {
             Events.OnAcceleration -= Accelerate;
         }
+
+        Events.OnGameOver -= StopScrolling;
+        Events.OnGameRestart -= ResetScrolling;
     }
 
     void Update()
@@ -77,6 +86,16 @@ public class AutoHorizontalScrolling : MonoBehaviour
         {
             transform.position = new Vector3(_startPos, transform.position.y, transform.position.z);
         }
+    }
+
+    private void StopScrolling()
+    {
+        LeanTween.value(_scrollSpeed, 0, 1).setOnUpdate((float value) => _scrollSpeed = value);
+    }
+
+    private void ResetScrolling()
+    {
+        _scrollSpeed = _defaultSpeed;
     }
 
     /// <summary>

@@ -252,7 +252,7 @@ public class SoundManager : MonoBehaviour
             {
                 Debug.Log($"Can't play the sound {sound.name} because there is no more available audio sources and the priority of this sound is lesser than the others.");
             }
-            else
+            else if (source != null)
             {
                 SetupSource(source, sound);
                 if(is3D)
