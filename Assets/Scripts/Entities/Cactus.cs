@@ -43,7 +43,7 @@ public class Cactus : MonoBehaviour, ISpawnable
         {
             Despawn();
         }
-        else if (collision.collider.name == "Player")
+        else if (collision.collider.name == "--- PLAYER ---")
         {
             // Get direction of the player on Y-axis
             Rigidbody2D rbPlayer = collision.gameObject.GetComponent<Rigidbody2D>();

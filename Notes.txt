@@ -4,9 +4,6 @@ Faire une condition de fin de partie
 
 Ecrire l'histoire d'arnold
 
-Faire des ombres sur le sol des cactus + joueur (à voir avec systèmes light 2d)
-Cycle jour nuit
-
 Faire les crédits :
 enter key by Nubaia Karim Barsha, from thenounproject.com CC BY 3.0 
 Space Bar by Ricki Tri Putra, from thenounproject.com CC BY 3.0 

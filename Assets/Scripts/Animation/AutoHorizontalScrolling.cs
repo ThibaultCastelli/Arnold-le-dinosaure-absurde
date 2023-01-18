@@ -105,5 +105,6 @@ public class AutoHorizontalScrolling : MonoBehaviour
     private void Accelerate(float amount)
     {
         _scrollSpeed += amount;
+        _defaultSpeed += amount;
     }
 }
