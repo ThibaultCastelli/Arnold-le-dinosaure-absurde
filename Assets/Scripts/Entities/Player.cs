@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     [SerializeField][Range(0, 3f)] float timeFreezeCollision = 0.5f;
     [SerializeField][Range(0, 10f)] float speedMoveBack = 0.5f;
 
+    [Header("Triggers")]
+    [SerializeField] GameObject deathTrigger;
+
     [Header("Particles")]
     [SerializeField] ParticleSystem runParticles;
     [SerializeField] ParticleSystem jumpParticles;
@@ -31,11 +34,11 @@ public class Player : MonoBehaviour
     private PlayerInputActions _inputs;
     private AutoSpeedHorizontal _horizontalComponent;
 
-    private GameObject deathTrigger = null;
     private ParticleSystem.EmissionModule _emissionRun;
 
-    private bool _wasInAir = false;
-    private float runSoundSpeed = 0.3f;
+    private bool _wasInAir = true;
+    private float _runSoundSpeed = 0.3f;
+    private float _startRunSoundSpeed = 0.3f;
 
     private void Awake()
     {
@@ -64,6 +67,7 @@ public class Player : MonoBehaviour
         Events.OnAcceleration += AccelerateRunAnimation;
         Events.OnGameStart += StartGame;
         Events.OnGameRestart += Restart;
+        Events.OnGameEnding += EndGame;
     }
 
     private void OnDisable()
@@ -72,6 +76,7 @@ public class Player : MonoBehaviour
         Events.OnAcceleration -= AccelerateRunAnimation;
         Events.OnGameStart -= StartGame;
         Events.OnGameRestart -= Restart;
+        Events.OnGameEnding -= EndGame;
     }
 
     private void Update()
@@ -102,7 +107,7 @@ public class Player : MonoBehaviour
         {
             landingParticles.Play();
             SoundManager.Instance.PlaySfx("landing", transform.position);
-            SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
+            SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
             Events.OnCamShake?.Invoke(1, 0.05f, 0.05f);
 
             _wasInAir = false;
@@ -140,11 +145,14 @@ public class Player : MonoBehaviour
 
             // Prevent moving and go out of screen
             _horizontalComponent.enabled = false;
+            StopAllCoroutines();
             StartCoroutine(GameOverFreeze());
 
             // Desactivate death trigger to be able to reach start point on restart
-            deathTrigger = collision.gameObject;
             deathTrigger.SetActive(false);
+
+            // Low pass the music
+            SoundManager.Instance.MusicLowPass(true);
         }
     }
 
@@ -160,6 +168,22 @@ public class Player : MonoBehaviour
             StartCoroutine(FreezeDeath());
             StartCoroutine(ShakeCoroutine(4, 0.1f, 0.05f));
         }
+    }
+
+    /// <summary>
+    /// Reset animation and sound of running to default values at the end of the game.
+    /// </summary>
+    private void EndGame()
+    {
+        _animator.speed = 1;
+        _runSoundSpeed = _startRunSoundSpeed;
+
+        StopAllCoroutines();
+        _inputs.Player.Disable();
+        deathTrigger.gameObject.SetActive(false);
+
+        SoundManager.Instance.StopSfxControlLoop("run");
+        SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
     }
 
     /// <summary>
@@ -189,7 +213,7 @@ public class Player : MonoBehaviour
         // Enable jumping and stop death animation
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
-        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
+        SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
 
         // Re-enable rigidbody
         _rb.isKinematic = false;
@@ -294,7 +318,7 @@ public class Player : MonoBehaviour
         // Enable jumping and stop death animation
         _animator.SetBool("Dead", false);
         _inputs.Player.Enable();
-        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
+        SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
 
         // Re-enable rigidbody
         _rb.isKinematic = false;
@@ -308,11 +332,11 @@ public class Player : MonoBehaviour
     {
         _animator.speed += 0.1f;
 
-        runSoundSpeed -= 0.02f;
-        if (runSoundSpeed < 0.08f)
-            runSoundSpeed = 0.08f;
+        _runSoundSpeed -= 0.02f;
+        if (_runSoundSpeed < 0.08f)
+            _runSoundSpeed = 0.08f;
         SoundManager.Instance.StopFadeSfx("run", 0.05f);
-        SoundManager.Instance.PlaySfxControlLoop("run", runSoundSpeed, transform);
+        SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
     }
 
     /// <summary>

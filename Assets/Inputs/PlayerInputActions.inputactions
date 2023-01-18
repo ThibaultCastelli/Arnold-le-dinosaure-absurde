@@ -58,6 +58,17 @@
                 },
                 {
                     "name": "",
+                    "id": "bd791d6b-905d-463f-98d4-ef8f15f01360",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard + Mouse",
+                    "action": "NextDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2e41f4ce-2e40-4ba3-aabe-14efe16240ed",
                     "path": "<Keyboard>/escape",
                     "interactions": "",

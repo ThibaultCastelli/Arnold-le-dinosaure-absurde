@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject backBtn;
     [SerializeField] GameObject backBtnCredits;
     [SerializeField] GameObject playBtn;
+    [SerializeField] Slider sliderVolumeMainMenu;
     [SerializeField] Image sliderImageMainMenu;
     [SerializeField] TextMeshProUGUI fullscreenTxtMainMenu;
 
@@ -25,7 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject pauseMenuFirstSelected;
     [SerializeField] Image sliderImagePauseMenu;
-    [SerializeField] Slider sliderVolume;
+    [SerializeField] Slider sliderVolumePauseMenu;
     [SerializeField] TextMeshProUGUI fullscreenTxtPauseMenu;
 
     [Header("Gameover menu")]
@@ -36,6 +37,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] EventSystem eventSystem;
 
     private bool _isPaused = false;
+    private bool _isOnOptions = false;  // Used in main menu
+    private bool _isOnCredits = false;  // Used in main menu
 
     private Color _originalSliderColor;
     private Color _originalFullscreenTxtColor;
@@ -57,9 +60,12 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // Default value for the slider
-        // TODO: save the slider volume to playerprefs and get it on start
-        sliderVolume.value = 0.66f;
+        // Default value for the slider volume
+        float savedVolume = PlayerPrefs.GetFloat("volume", 0.66f);
+        sliderVolumePauseMenu.value = savedVolume;
+        sliderVolumeMainMenu.value = savedVolume;
+
+        InputManager.Instance.Inputs.UI.Cancel.performed += EscKey;
     }
 
     private void OnEnable()
@@ -69,6 +75,14 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         Events.OnGameOver -= ShowGameOver;
+    }
+
+    private void EscKey(InputAction.CallbackContext ctx)
+    {
+        if(_isOnOptions || _isOnCredits)
+        {
+            Back();
+        }
     }
 
     /// <summary>
@@ -81,6 +95,9 @@ public class UIManager : MonoBehaviour
 
         // Deselect button
         eventSystem.SetSelectedGameObject(null);
+
+        // Remove low pass on music
+        SoundManager.Instance.MusicLowPass(false);
 
         Events.OnGameRestart?.Invoke();
     }
@@ -110,6 +127,8 @@ public class UIManager : MonoBehaviour
         InputManager.Instance.Inputs.UI.Disable();
         eventSystem.SetSelectedGameObject(null);
 
+        // Change the esc button to be the pause button
+        InputManager.Instance.Inputs.UI.Cancel.performed -= EscKey;
         InputManager.Instance.Inputs.Player.Pause.performed += Pause;
         InputManager.Instance.Inputs.UI.Cancel.performed += Pause;
     }
@@ -125,6 +144,7 @@ public class UIManager : MonoBehaviour
         LeanTween.moveLocal(mainMenuControls, new Vector3(-550, -380, 0), 0.7f).setEaseInOutCirc();
 
         eventSystem.SetSelectedGameObject(backBtn);
+        _isOnOptions = true;
     }
 
     /// <summary>
@@ -138,6 +158,7 @@ public class UIManager : MonoBehaviour
         LeanTween.moveLocalY(mainMenuCredits, -190, 0.6f).setEaseOutQuart();
 
         eventSystem.SetSelectedGameObject(backBtnCredits);
+        _isOnCredits = true;
     }
 
     /// <summary>
@@ -152,6 +173,8 @@ public class UIManager : MonoBehaviour
         LeanTween.moveLocalY(mainMenuCredits, -1200, 0.4f).setEaseInBack();
 
         eventSystem.SetSelectedGameObject(playBtn);
+        _isOnCredits = false;
+        _isOnOptions = false;
     }
 
     /// <summary>
@@ -167,7 +190,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void Quit()
     {
-        Debug.Log("Quit");
+        Application.Quit();
     }
 
     /// <summary>
@@ -176,7 +199,8 @@ public class UIManager : MonoBehaviour
     /// <param name="volume"></param>
     public void SetVolumeMaster(float volume)
     {
-        Events.OnVolumeChange(MyMath.CustomRange(volume, 0, 1, -40, 20));
+        Events.OnVolumeChange(MyMath.CustomRange(volume, 0, 1, -40, 5));
+        PlayerPrefs.SetFloat("volume", volume);
     }
 
     /// <summary>

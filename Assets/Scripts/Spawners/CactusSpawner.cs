@@ -7,17 +7,10 @@ using UnityEngine;
 public class CactusSpawner : MonoBehaviour
 {
     [Header("Spawn")]
-    [SerializeField] [Range(0.1f, 10f)] float _timeBetweenAcceleration = 3;
     [SerializeField] [Range(0f, 5f)] float _strengthAcceleration = 0.2f;
-    [SerializeField] [Range(0.1f, 10f)] float _maxSpawnSpeed = 0.5f;
-
-    [Header("Cactus")]
-    [SerializeField][Range(0f, 5f)] float _strengthAccelerationCactus = 0.2f;
-    [SerializeField][Range(0.1f, 20f)] float _maxCactusSpeed = 10f;
 
     private Spawner _spawner;
 
-    private float _timeCount = 0;
     private float _currCactusSpeed;
 
     /// <summary>
@@ -35,9 +28,6 @@ public class CactusSpawner : MonoBehaviour
     {
         // Subscribe to event
         Events.OnAcceleration += AccelerateCactus;
-
-        // Reset all the cactus positions
-        _spawner.DespawnAll(); 
     }
 
     private void OnDisable()
@@ -50,26 +40,6 @@ public class CactusSpawner : MonoBehaviour
     {
         // Get the basic speed of the cactus
         _currCactusSpeed = transform.GetChild(0).GetChild(0).GetComponent<AutoSpeedHorizontal>().Speed;
-    }
-
-    private void Update()
-    {
-        _timeCount += Time.deltaTime;
-        if (_timeCount >= _timeBetweenAcceleration)
-        {
-            // If not already at full speed of spawn
-            if (_spawner.TimeBetweenSpawn > _maxSpawnSpeed)
-            {
-                _spawner.AddTimeOfSpawn(-_strengthAcceleration);
-            }
-            // If not already at full speed of cactus
-            if (_currCactusSpeed < _maxCactusSpeed)
-            {
-                // Trigger the event so that the player, ground, sky, and cactus accelerate
-                Events.OnAcceleration?.Invoke(_strengthAccelerationCactus);
-            }
-            _timeCount = 0;
-        }
     }
 
     /// <summary>
@@ -91,6 +61,8 @@ public class CactusSpawner : MonoBehaviour
                 scroll.Speed += amount;
             }
         }
-        _currCactusSpeed += _strengthAccelerationCactus;
+        _currCactusSpeed += amount;
+
+        _spawner.AddTimeOfSpawn(-_strengthAcceleration);
     }
 }

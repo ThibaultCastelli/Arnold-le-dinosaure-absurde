@@ -886,8 +886,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1555,8 +1555,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 1402776452}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -3159,8 +3159,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 286376941}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -9074,11 +9074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d05bf1678faf614f85e1fa59a9cf0f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeBetweenAcceleration: 3
-  _strengthAcceleration: 0.5
-  _maxSpawnSpeed: 2
-  _strengthAccelerationCactus: 0.5
-  _maxCactusSpeed: 20
+  _strengthAcceleration: 0.4
 --- !u!1 &807961832
 GameObject:
   m_ObjectHideFlags: 0
@@ -14683,8 +14679,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1222}
-  m_SizeDelta: {x: -60, y: -413.1343}
+  m_AnchoredPosition: {x: 0, y: -1230.1738}
+  m_SizeDelta: {x: -60, y: -462.1776}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1007886384
 MonoBehaviour:
@@ -15848,12 +15844,13 @@ MonoBehaviour:
   backBtn: {fileID: 1501348257}
   backBtnCredits: {fileID: 761879629}
   playBtn: {fileID: 2035059279}
+  sliderVolumeMainMenu: {fileID: 320435684}
   sliderImageMainMenu: {fileID: 1828638148}
   fullscreenTxtMainMenu: {fileID: 974782810}
   pauseMenu: {fileID: 501859753}
   pauseMenuFirstSelected: {fileID: 102516464}
   sliderImagePauseMenu: {fileID: 184275479}
-  sliderVolume: {fileID: 492136026}
+  sliderVolumePauseMenu: {fileID: 492136026}
   fullscreenTxtPauseMenu: {fileID: 1397241359}
   gameoverMenu: {fileID: 976140530}
   restartBtn: {fileID: 1386487984}
@@ -15902,7 +15899,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 067d7b07954da104a8adfcba9cd272a8, type: 2}
   - {fileID: 11400000, guid: 2dc061aeedbe9ba4b932fa3f623f1eba, type: 2}
   maxMusicSource: 2
-  maxSfxSource: 5
+  maxSfxSource: 10
 --- !u!4 &1336395190
 Transform:
   m_ObjectHideFlags: 0
@@ -16095,6 +16092,7 @@ MonoBehaviour:
   boxCastOffset: 0.7
   timeFreezeCollision: 0.5
   speedMoveBack: 5
+  deathTrigger: {fileID: 1731434764}
   runParticles: {fileID: 1654428352}
   jumpParticles: {fileID: 773708474}
   landingParticles: {fileID: 979006308}
@@ -17249,8 +17247,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 2035059280}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -17842,8 +17840,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -18216,8 +18214,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -281}
-  m_SizeDelta: {x: 1600, y: 250}
+  m_AnchoredPosition: {x: 0, y: -268.01404}
+  m_SizeDelta: {x: 1600, y: 226.6252}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1590708360
 MonoBehaviour:
@@ -18269,23 +18267,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939817536da8eec4b98eeb7cd54f55c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedLetters: 0.05
+  speedLetters: 0.03
   dialogue:
     sentences:
-    - 1 Je m'appel Arnold, et cela fait maintenant 4 ans que je cours, sans savoir
+    - Je m'appelle Arnold, et cela fait maintenant 4 ans que je cours, sans savoir
       pourquoi.
-    - "2 Tout \xE0 commenc\xE9 un matin. Je me suis lev\xE9, et mes jambes se sont
-      mises en action."
-    - "3 Comme par magie, il m'\xE9tait tout \xE0 coup impossible de les arr\xEAter."
-    - 4 Etrangement, je ne ressentais aucune fatigue physique.
-    - "J'ai quitt\xE9 mon village, ma famille, mes amis..."
-    - "et toute la peine que j'\xE9prouvais n'emp\xE9chais pas mes jambes de courir."
-    - "J'ai tant bien que mal essay\xE9 de m'accrocher \xE0 quelque chose pour arr\xEAter
-      ma course."
-    - "Mais mes jambes me font rester sur un terrain plat, et me dirige syst\xE9matiquement
-      vers des cactus."
-    - "Mais mes jambes me font rester sur un terrain plat, et me dirige syst\xE9matiquement
-      vers des cactus."
+    - "Tout a commenc\xE9 un matin."
+    - "Lorsque je me suis r\xE9veill\xE9, mes jambes se sont mises en action."
+    - "Comme par magie, il m'\xE9tait tout \xE0 coup impossible de les arr\xEAter."
+    - "Dans cette folle course, j'ai d\xFB quitter ma maison, mon village, ma famille,
+      et mes amis."
+    - "J'ai bien essay\xE9 de m'accrocher \xE0 quelque chose, n'importe quoi, pour
+      m'arr\xEAter."
+    - "Mais mes jambes n'en font qu'\xE0 leur t\xEAte, et elles m'ont rapidement
+      emmen\xE9 vers le d\xE9sert."
+    - Ici, les seules choses auxquelles on peut s'accrocher sont des cactus...
+    - "J'arrive \xE0 r\xE9cup\xE9rer quelques l\xE9zards sur le chemin pour manger."
+    - "J'ai fini par me faire au go\xFBt."
+    - J'attends patiemment la pluie afin de boire, en ouvrant la gueule face au ciel.
+    - "\xC9trangement, je ne ressens aucune fatigue physique."
+    - "Le d\xE9sespoir et la panique du d\xE9but ont fait peu \xE0 peu place \xE0
+      l'indiff\xE9rence."
+    - "\xC0 quoi bon lutter contre son propre corps apr\xE8s tout."
+    - "Au d\xE9but, j'ai cru qu'il y aurait quelque chose au bout du chemin."
+    - "Mais cette id\xE9e absurde d\xE9serte aujourd'hui mon esprit."
+    - "Plut\xF4t que de lever la t\xEAte vers le n\xE9ant, je devrais la baisser
+      et regarder mes pieds."
+    - Mais pas maintenant.
+    - Demain.
+    - "Peut-\xEAtre."
+    - "Le jeu est fini, merci d'y avoir jou\xE9."
 --- !u!114 &1590708363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18561,8 +18572,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 492136026}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -24267,7 +24278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25343,8 +25354,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Enter key by Nubaia Karim Barsha, from thenounproject.com CC BY 3.0\_\r\n-
-    Space Bar by Ricki Tri Putra, from thenounproject.com CC BY 3.0\_"
+  m_text: "- 2D Casual UI HD by Mimu Studio\n- Bolt 2D DinoRun VE1 by Goldmetal Studio\n-
+    LeanTween by Dented Pixel\n- Pixel Operator font by Jayvee Enaguas\n- Strange
+    Tale font by imagex\n- Dialog Text Sound Effects by Alan Dalcastagne\n- Footsteps
+    Essentials by Nox_Sound\n- 8 Bits Elements by Game Sound Solutions\n- Enter key
+    by Nubaia Karim Barsha, from thenounproject.com CC BY 3.0\_\r\n- Space Bar by
+    Ricki Tri Putra, from thenounproject.com CC BY 3.0\_"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9e4cfa6f928e3b4294b0a681e1eeeb9, type: 2}
   m_sharedMaterial: {fileID: 135077871573752619, guid: d9e4cfa6f928e3b4294b0a681e1eeeb9, type: 2}
@@ -25379,7 +25394,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -25597,8 +25612,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 688790415}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
-    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_NormalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    m_HighlightedColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9490197, g: 0.9490197, b: 0.9490197, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}

@@ -15,6 +15,8 @@ public class Spawner : MonoBehaviour
 
     private List<GameObject> _objectsToAdd; // Used to spawn each gameobject at least one
 
+    private bool _activateSpawn = true;
+
     /// <summary>
     /// Time in seconds between each spawn.
     /// </summary>
@@ -39,14 +41,33 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        Events.OnGameEnding += StopSpawning;
+    }
+    private void OnDisable()
+    {
+        Events.OnGameEnding -= StopSpawning;
+    }
+
     private void Update()
     {
         _timer += Time.deltaTime;
-        if (_timer >= _timeBetweenSpawn)
+        if (_timer >= _timeBetweenSpawn && _activateSpawn)
         {
             _timer = 0f;
             Spawn();
         }
+    }
+
+    public void StartSpawning()
+    {
+        _activateSpawn = true;
+    }
+
+    public void StopSpawning()
+    {
+        _activateSpawn = false;
     }
 
     /// <summary>

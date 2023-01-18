@@ -85,12 +85,14 @@ public class SoundManager : MonoBehaviour
     {
         Events.OnGamePause += MusicLowPass;
         Events.OnVolumeChange += ChangeMasterVolume;
+        Events.OnGameEnding += FadeOutMusic;
     }
 
     private void OnDisable()
     {
         Events.OnGamePause -= MusicLowPass;
         Events.OnVolumeChange -= ChangeMasterVolume;
+        Events.OnGameEnding -= FadeOutMusic;
     }
 
     private void OnValidate()
@@ -98,12 +100,17 @@ public class SoundManager : MonoBehaviour
         CheckMute();
     }
 
+    private void FadeOutMusic()
+    {
+        StopFadeMusic("main theme", 4);
+    }
+
     private void ChangeMasterVolume(float volume)
     {
         masterGroup.audioMixer.SetFloat("MasterVolume", volume);
     }
 
-    private void MusicLowPass(bool isPause)
+    public void MusicLowPass(bool isPause)
     {
         if(isPause)
         {

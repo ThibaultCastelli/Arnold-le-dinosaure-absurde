@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     private void ActivateCactusSpawner()
     {
         cactusSpawner.SetActive(true);
+        cactusSpawner.GetComponent<Spawner>().StartSpawning();
     }
 
     /// <summary>
@@ -58,15 +59,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void GameOver()
     {
-        cactusSpawner.SetActive(false);
-        mountainSpawner.SetActive(false);
+        cactusSpawner.GetComponent<Spawner>().StopSpawning();
+        mountainSpawner.GetComponent<Spawner>().StopSpawning();
     }
 
     /// <summary>
-    /// Re-activate mountain spawner.
+    /// Re-activate mountain and cactus spawner.
     /// </summary>
     private void Restart()
     {
-        mountainSpawner.SetActive(true);
+        mountainSpawner.GetComponent<Spawner>().StartSpawning();
+        cactusSpawner.GetComponent<Spawner>().DespawnAll();
     }
 }

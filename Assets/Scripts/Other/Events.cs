@@ -40,7 +40,15 @@ public static class Events
     /// </summary>
     public static Action OnGameOver;
 
+    /// <summary>
+    /// Event triggered when the player restart the game.
+    /// </summary>
     public static Action OnGameRestart;
+
+    /// <summary>
+    /// Event triggered when the player reach the end of the game.
+    /// </summary>
+    public static Action OnGameEnding;
 
     /// <summary>
     /// Event triggered when the global volume is changed in the menu.

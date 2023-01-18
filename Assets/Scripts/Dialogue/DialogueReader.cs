@@ -21,6 +21,8 @@ public class DialogueReader : MonoBehaviour
     private string _currSentence;
     private string _sentenceBeforeGameover;
 
+    private int dialoguePassedCount = 0;
+
     private RectTransform rectTransform;
 
     private void Awake()
@@ -67,7 +69,7 @@ public class DialogueReader : MonoBehaviour
         SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
 
         // Show game over sentence
-        StartCoroutine(ShowSentenceCoroutine("La folle course d'Arnold s'arrêta d'une bien triste façon."));
+        StartCoroutine(ShowSentenceCoroutine("Périodiquement, je tombais de chagrin, mais cela ne suffisait pas à stopper mes ridicules pattes."));
 
         _isGameOver = true;
         _sentenceBeforeGameover = _currSentence;
@@ -83,7 +85,7 @@ public class DialogueReader : MonoBehaviour
         SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
 
         // Show restart sentence
-        _currSentence = "Bref, où en étais-je... Ha oui !";
+        _currSentence = "Qu'importe, reprenons.";
         StartCoroutine(ShowSentenceCoroutine(_currSentence));
 
         _isGameOver = false;
@@ -157,6 +159,13 @@ public class DialogueReader : MonoBehaviour
                 // Show next sentence
                 _currSentence = _sentences.Dequeue();
                 StartCoroutine(ShowSentenceCoroutine(_currSentence));
+
+                // Accelerate the game every two dialogues
+                dialoguePassedCount++;
+                if (dialoguePassedCount % 2 == 0)
+                {
+                    Events.OnAcceleration?.Invoke(0.7f);
+                }
             }
             
             // Start to invoke cactus after the first dialogue is passed
@@ -165,10 +174,12 @@ public class DialogueReader : MonoBehaviour
                 _isFirstDialogue = false;
                 Events.OnFirstDialoguePass?.Invoke();
             }
-        }
-        else if (!_isGameOver)
-        {
-            EndDialogue();
+
+            // Reach end of dialogue
+            if (_sentences.Count == 0)
+            {
+                Events.OnGameEnding?.Invoke(); 
+            }
         }
     }
 
@@ -181,7 +192,7 @@ public class DialogueReader : MonoBehaviour
         // Indiquate that the animation is running
         _isShowingSentence = true;
 
-        SoundManager.Instance.PlaySfxControlLoop("DialogueVoice", 0.9f);
+        SoundManager.Instance.PlaySfxControlLoop("DialogueVoice", 0.6f);
 
         // Reset the text field of the dialogue box
         text.text = ""; 

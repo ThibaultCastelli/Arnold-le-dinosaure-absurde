@@ -16,6 +16,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
     private float _spriteWidth;
 
     private float _defaultSpeed;
+    private float _startSpeed;
     
     void Awake()
     {
@@ -31,6 +32,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
         }
 
         _defaultSpeed = _scrollSpeed;
+        _startSpeed = _scrollSpeed;
 
         // Get start position
         _startPos = transform.position.x;
@@ -61,6 +63,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
 
         Events.OnGameOver += StopScrolling;
         Events.OnGameRestart += ResetScrolling;
+        Events.OnGameEnding += DefaultScrollingSpeed;
     }
 
     private void OnDisable()
@@ -73,6 +76,7 @@ public class AutoHorizontalScrolling : MonoBehaviour
 
         Events.OnGameOver -= StopScrolling;
         Events.OnGameRestart -= ResetScrolling;
+        Events.OnGameEnding -= DefaultScrollingSpeed;
     }
 
     void Update()
@@ -106,5 +110,10 @@ public class AutoHorizontalScrolling : MonoBehaviour
     {
         _scrollSpeed += amount;
         _defaultSpeed += amount;
+    }
+
+    private void DefaultScrollingSpeed()
+    {
+        _scrollSpeed = _startSpeed;
     }
 }
