@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     private BoxCollider2D _collider;
     private Animator _animator;
     private PlayerInputActions _inputs;
+    private AutoSpeedHorizontal _horizontalComponent;
 
     private bool _wasInAir = false;
 
@@ -42,6 +43,8 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
+        _horizontalComponent = GetComponent<AutoSpeedHorizontal>();
+        _horizontalComponent.enabled = false;
 
         // Particles
         _emissionRun = runParticles.emission;
@@ -52,7 +55,6 @@ public class Player : MonoBehaviour
     {
         // Initialize inputs
         _inputs = InputManager.Instance.Inputs;
-        _inputs.Player.Enable();
         _inputs.Player.Jump.performed += Jump;
     }
 
@@ -60,12 +62,14 @@ public class Player : MonoBehaviour
     {
         // Subscribe to event
         Events.OnAcceleration += AccelerateRunAnimation;
+        Events.OnGameStart += StartGame;
     }
 
     private void OnDisable()
     {
         // Unsubscribe to event
         Events.OnAcceleration -= AccelerateRunAnimation;
+        Events.OnGameStart -= StartGame;
     }
 
     private void Update()
@@ -144,6 +148,20 @@ public class Player : MonoBehaviour
             StartCoroutine(FreezeDeath());
             StartCoroutine(ShakeCoroutine(4, 0.1f, 0.05f));
         }
+    }
+
+    /// <summary>
+    /// Triggered with an event, setup the player to start the game.
+    /// </summary>
+    public void StartGame()
+    {
+        StartCoroutine(StartGameCoroutine());
+        _horizontalComponent.enabled = true;
+    }
+    private IEnumerator StartGameCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+        _inputs.Player.Enable();
     }
 
     /// <summary>

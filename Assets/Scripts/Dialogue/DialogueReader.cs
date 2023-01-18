@@ -34,17 +34,18 @@ public class DialogueReader : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.Inputs.Player.NextDialogue.performed += ContinueDialogue;
-        StartDialogue();
     }
 
     private void OnEnable()
     {
         Events.OnGamePause += PauseDialogue;
+        Events.OnGameStart += StartDialogue;
     }
 
     private void OnDisable()
     {
         Events.OnGamePause -= PauseDialogue;
+        Events.OnGameStart -= StartDialogue;
     }
 
     private void PauseDialogue(bool isPaused)

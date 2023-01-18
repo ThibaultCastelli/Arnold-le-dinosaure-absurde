@@ -31,6 +31,11 @@ public static class Events
     public static Action<bool> OnGamePause;
 
     /// <summary>
+    /// Event triggered when the game start.
+    /// </summary>
+    public static Action OnGameStart;
+
+    /// <summary>
     /// Event triggered when the global volume is changed in the menu.
     /// </summary>
     public static Action<float> OnVolumeChange;

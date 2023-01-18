@@ -8,14 +8,24 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Main menu")]
+    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject mainMenuBtns; 
+    [SerializeField] GameObject mainMenuOptions;
+    [SerializeField] GameObject mainMenuControls;
+    [SerializeField] GameObject mainMenuCredits;
+    [SerializeField] GameObject backBtn;
+    [SerializeField] GameObject backBtnCredits;
+    [SerializeField] GameObject playBtn;
+    [SerializeField] Image sliderImageMainMenu;
+    [SerializeField] TextMeshProUGUI fullscreenTxtMainMenu;
+
     [Header("Pause menu")]
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject pauseMenuFirstSelected;
-    [SerializeField] GameObject pauseMenuSlider;
-    [SerializeField] Image sliderImage;
+    [SerializeField] Image sliderImagePauseMenu;
     [SerializeField] Slider sliderVolume;
-    [SerializeField] GameObject pauseMenuToggle;
-    [SerializeField] TextMeshProUGUI fullscreenTxt;
+    [SerializeField] TextMeshProUGUI fullscreenTxtPauseMenu;
 
     [Header("Other")]
     [SerializeField] EventSystem eventSystem;
@@ -27,18 +37,65 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _originalSliderColor = sliderImage.color;
-        _originalFullscreenTxtColor = fullscreenTxt.color;
+        _originalSliderColor = sliderImagePauseMenu.color;
+        _originalFullscreenTxtColor = fullscreenTxtPauseMenu.color;
+
+        eventSystem.SetSelectedGameObject(playBtn);
     }
 
     private void Start()
     {
-        InputManager.Instance.Inputs.Player.Pause.performed += Pause;
-        InputManager.Instance.Inputs.UI.Cancel.performed += Pause;
+        
 
         // Default value for the slider
         // TODO: save the slider volume to playerprefs and get it on start
         sliderVolume.value = 0.66f;
+    }
+
+    /// <summary>
+    /// Function for the "joueur" button.
+    /// </summary>
+    public void Play()
+    {
+        LeanTween.moveLocalY(mainMenu, 1100, 1).setEaseInCubic();
+        LeanTween.moveLocalX(mainMenuCredits, 2000, 0.5f);
+        
+        Events.OnGameStart?.Invoke();
+
+        InputManager.Instance.Inputs.UI.Disable();
+        InputManager.Instance.Inputs.Player.Pause.performed += Pause;
+        InputManager.Instance.Inputs.UI.Cancel.performed += Pause;
+    }
+
+    /// <summary>
+    /// Function for the "options" button on the main menu.
+    /// </summary>
+    public void GoToOptions()
+    {
+        LeanTween.moveLocalX(mainMenuBtns, -2000, 0.4f).setEaseInBack();
+        LeanTween.moveLocalX(mainMenuOptions, 5, 0.8f).setEaseInOutBack();
+        LeanTween.moveLocal(mainMenuControls, new Vector3(-550, -380, 0), 0.7f).setEaseInOutCirc();
+        eventSystem.SetSelectedGameObject(backBtn);
+    }
+
+    public void GoToCredits()
+    {
+        LeanTween.moveLocalX(mainMenuBtns, -2000, 0.4f).setEaseInBack();
+        LeanTween.moveLocalX(mainMenuControls, 1600, 0.4f).setEaseInBack();
+        LeanTween.moveLocalY(mainMenuCredits, -190, 0.6f).setEaseOutQuart();
+        eventSystem.SetSelectedGameObject(backBtnCredits);
+    }
+
+    /// <summary>
+    /// Function for the "retour" button on the main menu.
+    /// </summary>
+    public void Back()
+    {
+        LeanTween.moveLocalX(mainMenuBtns, 0, 0.7f).setEaseOutBack();
+        LeanTween.moveLocalX(mainMenuOptions, 630, 0.2f).setEaseInBack();
+        LeanTween.moveLocal(mainMenuControls, new Vector3(600, -24, 0), 0.7f).setEaseOutBack();
+        LeanTween.moveLocalY(mainMenuCredits, -1200, 0.4f).setEaseInBack();
+        eventSystem.SetSelectedGameObject(playBtn);
     }
 
     /// <summary>
@@ -75,11 +132,27 @@ public class UIManager : MonoBehaviour
         Screen.fullScreen = fullscreen;
     }
 
-    public void HighlightFullscreen() => fullscreenTxt.color = Color.white;
-    public void DelightFullscreen() => fullscreenTxt.color = _originalFullscreenTxtColor;
+    public void HighlightFullscreen()
+    {
+        fullscreenTxtPauseMenu.color = Color.white;
+        fullscreenTxtMainMenu.color = Color.white;
+    }
+    public void DelightFullscreen()
+    {
+        fullscreenTxtPauseMenu.color = _originalFullscreenTxtColor;
+        fullscreenTxtMainMenu.color = _originalFullscreenTxtColor;
+    }
 
-    public void HighlightAudioVolume() => sliderImage.color = Color.white;
-    public void DelightAudioVolume() => sliderImage.color = _originalSliderColor;
+    public void HighlightAudioVolume()
+    {
+        sliderImagePauseMenu.color = Color.white;
+        sliderImageMainMenu.color = Color.white;
+    }
+    public void DelightAudioVolume()
+    {
+        sliderImagePauseMenu.color = _originalSliderColor;
+        sliderImageMainMenu.color = _originalSliderColor;
+    }
 
     /// <summary>
     /// Show or hide the pause menu.

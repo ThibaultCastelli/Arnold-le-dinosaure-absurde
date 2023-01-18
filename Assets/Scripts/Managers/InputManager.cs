@@ -21,5 +21,8 @@ public class InputManager : MonoBehaviour
         }
 
         Inputs = new PlayerInputActions();
+
+        // Start game on UI
+        Inputs.UI.Enable();
     }
 }

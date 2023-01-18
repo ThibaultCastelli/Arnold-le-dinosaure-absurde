@@ -1,10 +1,6 @@
 Sound Manager : faire une fonction IsSoundPlaying(string soundName)
 
-Animation UI
-
 Faire une condition de gameover
-Faire une entrée de champ pour Arnold au début d'une partie
-Menu principal
 
 Ecrire l'histoire d'arnold
 
