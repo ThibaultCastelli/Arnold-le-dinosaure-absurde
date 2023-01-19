@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class UIManager : MonoBehaviour
     [Header("Gameover menu")]
     [SerializeField] GameObject gameoverMenu;
     [SerializeField] GameObject restartBtn;
+
+    [Header("Ending menu")]
+    [SerializeField] GameObject endingMenu;
+    [SerializeField] GameObject replayBtn;
 
     [Header("Other")]
     [SerializeField] EventSystem eventSystem;
@@ -71,10 +76,12 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         Events.OnGameOver += ShowGameOver;
+        Events.OnGameEnding += ShowEndingMenu;
     }
     private void OnDisable()
     {
         Events.OnGameOver -= ShowGameOver;
+        Events.OnGameEnding -= ShowEndingMenu;
     }
 
     private void EscKey(InputAction.CallbackContext ctx)
@@ -86,7 +93,35 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Triggered when the game is ending.
+    /// </summary>
+    private void ShowEndingMenu()
+    {
+        LeanTween.moveLocalX(endingMenu, 0, 1).setEaseOutBack();
+        eventSystem.SetSelectedGameObject(null);
+        StartCoroutine(SelectReplayBtn());
+    }
+    private IEnumerator SelectReplayBtn()
+    {
+        yield return new WaitForSeconds(2);
+        eventSystem.SetSelectedGameObject(replayBtn);
+    }
+
+    /// <summary>
     /// Function for "rejouer" button.
+    /// </summary>
+    public void Replay()
+    {
+        Events.OnGameReload?.Invoke();
+        // Reload the scene.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        InputManager.Instance.Inputs.Player.Disable();
+        InputManager.Instance.Inputs.Player.Pause.performed -= Pause;
+        InputManager.Instance.Inputs.UI.Cancel.performed -= Pause;
+    }
+
+    /// <summary>
+    /// Function for "réessayer" button.
     /// </summary>
     public void Restart()
     {

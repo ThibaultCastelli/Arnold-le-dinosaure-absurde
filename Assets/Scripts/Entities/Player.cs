@@ -182,6 +182,8 @@ public class Player : MonoBehaviour
         _inputs.Player.Disable();
         deathTrigger.gameObject.SetActive(false);
 
+        _inputs.Player.Jump.performed -= Jump;
+
         SoundManager.Instance.StopSfxControlLoop("run");
         SoundManager.Instance.PlaySfxControlLoop("run", _runSoundSpeed, transform);
     }
@@ -370,15 +372,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_collider != null)
-        {
-            if (IsOnGround())
-                Gizmos.color = Color.red;
-            else
-                Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(_collider.bounds.center, new Vector3(_collider.size.x, _collider.size.y + boxCastOffset));
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (_collider != null)
+    //    {
+    //        if (IsOnGround())
+    //            Gizmos.color = Color.red;
+    //        else
+    //            Gizmos.color = Color.green;
+    //        Gizmos.DrawWireCube(_collider.bounds.center, new Vector3(_collider.size.x, _collider.size.y + boxCastOffset));
+    //    }
+    //}
 }

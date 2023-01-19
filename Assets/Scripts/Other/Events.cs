@@ -51,6 +51,11 @@ public static class Events
     public static Action OnGameEnding;
 
     /// <summary>
+    /// Event triggered when the scene is reloaded.
+    /// </summary>
+    public static Action OnGameReload;
+
+    /// <summary>
     /// Event triggered when the global volume is changed in the menu.
     /// </summary>
     public static Action<float> OnVolumeChange;

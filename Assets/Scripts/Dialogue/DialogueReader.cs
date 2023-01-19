@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class DialogueReader : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class DialogueReader : MonoBehaviour
         Events.OnGameStart += StartDialogue;
         Events.OnGameOver += GameOverDialogue;
         Events.OnGameRestart += RestartDialogue;
+        Events.OnGameReload += Reload;
     }
 
     private void OnDisable()
@@ -57,6 +59,12 @@ public class DialogueReader : MonoBehaviour
         Events.OnGameStart -= StartDialogue;
         Events.OnGameOver -= GameOverDialogue;
         Events.OnGameRestart -= RestartDialogue;
+        Events.OnGameReload -= Reload;
+    }
+
+    private void Reload()
+    {
+        InputManager.Instance.Inputs.Player.NextDialogue.performed -= ContinueDialogue;
     }
 
     /// <summary>
@@ -69,7 +77,7 @@ public class DialogueReader : MonoBehaviour
         SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
 
         // Show game over sentence
-        StartCoroutine(ShowSentenceCoroutine("Périodiquement, je tombais de chagrin, mais cela ne suffisait pas à stopper mes ridicules pattes."));
+        StartCoroutine(ShowSentenceCoroutine("Parfois, comme maintenant, je cède, et j'aimerais que cela s'arrête."));
 
         _isGameOver = true;
         _sentenceBeforeGameover = _currSentence;
@@ -85,7 +93,7 @@ public class DialogueReader : MonoBehaviour
         SoundManager.Instance.StopSfxControlLoop("DialogueVoice");
 
         // Show restart sentence
-        _currSentence = "Qu'importe, reprenons.";
+        _currSentence = "Mais qu'importe, reprenons.";
         StartCoroutine(ShowSentenceCoroutine(_currSentence));
 
         _isGameOver = false;
@@ -164,7 +172,7 @@ public class DialogueReader : MonoBehaviour
                 dialoguePassedCount++;
                 if (dialoguePassedCount % 2 == 0)
                 {
-                    Events.OnAcceleration?.Invoke(0.7f);
+                    Events.OnAcceleration?.Invoke(0.5f);
                 }
             }
             

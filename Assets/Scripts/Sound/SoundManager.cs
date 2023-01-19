@@ -67,13 +67,6 @@ public class SoundManager : MonoBehaviour
             sfxGO.transform.parent = sfxParent.transform;
             sfxSources[i] = sfxGO.AddComponent<AudioSource>();
         }
-
-        // Create Sfx source for sfx using the function PlayOneShot
-        //GameObject sfxPlayOneGO = new GameObject("SfxSourcePlayOneShot");
-        //sfxPlayOneGO.transform.parent = transform;
-        //sfxSourcePlayOneShot = sfxPlayOneGO.AddComponent<AudioSource>();
-
-        PlayMusic("main theme");
     }
 
     private void Start()
@@ -86,6 +79,7 @@ public class SoundManager : MonoBehaviour
         Events.OnGamePause += MusicLowPass;
         Events.OnVolumeChange += ChangeMasterVolume;
         Events.OnGameEnding += FadeOutMusic;
+        Events.OnGameReload += StopAllSounds;
     }
 
     private void OnDisable()
@@ -93,11 +87,27 @@ public class SoundManager : MonoBehaviour
         Events.OnGamePause -= MusicLowPass;
         Events.OnVolumeChange -= ChangeMasterVolume;
         Events.OnGameEnding -= FadeOutMusic;
+        Events.OnGameReload -= StopAllSounds;
     }
 
     private void OnValidate()
     {
         CheckMute();
+    }
+
+    private void StopAllSounds()
+    {
+        StopAllCoroutines();
+
+        foreach (AudioSource source in sfxSources)
+        {
+            source.Stop();
+        }
+        foreach(AudioSource source in musicSources)
+        {
+            source.Stop();
+        }
+        
     }
 
     private void FadeOutMusic()

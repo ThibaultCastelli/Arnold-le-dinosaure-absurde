@@ -1,30 +1,34 @@
-
-Histoire :
-Je m'appelle Arnold, et cela fait maintenant 4 ans que je cours, sans savoir pourquoi.
-Tout a commencé un matin.
-Lorsque je me suis réveillé, mes jambes se sont mises en action.
-Comme par magie, il m'était tout à coup impossible de les arrêter.
-Dans cette folle course, j'ai dû quitter ma maison, mon village, ma famille, et mes amis.
-J'ai bien essayé de m'accrocher à quelque chose, n'importe quoi, pour m'arrêter.
-Mais mes jambes n'en font qu'à leur tête, et elles m'ont rapidement emmené vers le désert.
-Ici, les seules choses auxquelles on peut s'accrocher sont des cactus...
-J'arrive à récupérer quelques lézards sur le chemin pour manger.
-J'ai fini par me faire au goût.
-J'attends patiemment la pluie afin de boire, en ouvrant la gueule face au ciel.
-Étrangement, je ne ressens aucune fatigue physique.
-Le désespoir et la panique du début ont fait peu à peu place à l'indifférence.
-À quoi bon lutter contre son propre corps après tout.
-Au début, j'ai cru qu'il y aurait quelque chose au bout du chemin.
-Mais cette idée absurde déserte aujourd'hui mon esprit.
-Plutôt que de lever la tête vers le néant, je devrais la baisser et regarder mes pieds.
-Mais pas maintenant.
-Demain.
-Peut-être.
-Le jeu est fini, merci d'y avoir joué.
-
-
 Gameover : 
-Périodiquement, je tombais de chagrin, mais cela ne suffisait pas à stopper mes ridicules pattes.
+Parfois, comme maintenant, je cède, et j'aimerais que cela s'arrête.
 
 Restart : 
-Qu'importe, reprenons.
+Mais qu'importe, reprenons.
+
+Histoire  :
+Tiens ? Bonjour. Vous vous demandez sûrement ce que je fais ici ?
+Et bien, je n'en ai plus la moindre idée.
+Laissez-moi vous en expliquer la raison.
+Un beau matin, je me suis réveillé, et je suis parti.
+J'ai quitté ma maison, mon village, mes amis, et ma famille.
+Probablement en quête d'un idéal, ou d'un but quelconque, que sais-je ?
+C'est fou comme on peut se croire invincible avant de se jeter dans le vide.
+Résultat : je me retrouve aujourd'hui dans ce désert sans fin.
+Avec vous, comme seul compagnon.
+L'horizon devant mes yeux n'est plus le signe d'un avenir radieux.
+Il est devenu le grand Inconnu, dans sa forme la plus primitive.
+Je reste pourtant parfaitement incapable d'arrêter ma course.
+Lorsque la douce odeur de la nostalgie s'en vient à moi et m'enlace.
+Je me dis alors que faire marche arrière serait la solution.
+Mais prend garde, ce goût doux-amer n'est qu'une illusion.
+Tu ne trouveras aucun salut à regarder en arrière.
+Arrivé ici, il ne me reste alors plus qu'une solution.
+M'arrêter.
+Recentrer mon regard sur mon être, sur le présent.
+Choisir une nouvelle direction.
+Aller explorer l'espace d'une nouvelle dimension.
+Mais pas maintenant, mon ami.
+Je vais encore un peu profiter de mon inertie.
+Merci de m'avoir accompagné sur cette partie du chemin. À bientôt.
+
+
+

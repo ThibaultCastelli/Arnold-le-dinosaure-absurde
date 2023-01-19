@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
         cactusSpawner.SetActive(false);
     }
 
+    private void Start()
+    {
+        SoundManager.Instance.PlayMusic("main theme");
+    }
+
     private void OnEnable()
     {
         Events.OnFirstDialoguePass += ActivateCactusSpawner;
